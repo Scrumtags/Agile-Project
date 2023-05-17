@@ -2,25 +2,50 @@
 # See: https://circleci.com/docs/configuration-reference
 version: 2.1
 
+orbs:
+  python: circleci/python@2.1.1
+
+
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/configuration-reference/#jobs
 jobs:
-  say-hello:
+  test:
     # Specify the execution environment. You can specify an image from Docker Hub or use one of our convenience images from CircleCI's Developer Hub.
     # See: https://circleci.com/docs/configuration-reference/#executor-job
     docker:
-      - image: cimg/base:stable
-    # Add steps to the job
-    # See: https://circleci.com/docs/configuration-reference/#steps
+      - image: cimg/python:3.10.2
+
     steps:
       - checkout
+
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "requirements.txt" }}
+            - v1-dependencies-
+            
+      
+
       - run:
-          name: "Say hello"
-          command: "echo Hello, World!"
+          name: Install dependencies
+          command: pip install -r requirements.txt
+
+      # Save pip dependencies to cache
+      - save_cache:
+          paths:
+            - ./venv
+          key: v1-dependencies-{{ checksum "requirements.txt" }}
+
+      # Run tests using pytest
+      - run:
+          name: Run tests
+          command: pytest --junitxml=test-results/junit.xml
+
+      - store_test_results:
+          path: test-results.xml
 
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/configuration-reference/#workflows
 workflows:
-  say-hello-workflow:
+  pytest-workflow:
     jobs:
-      - say-hello
+      - test
