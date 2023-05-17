@@ -22,8 +22,6 @@ jobs:
           keys:
             - v1-dependencies-{{ checksum "requirements.txt" }}
             - v1-dependencies-
-            
-      
 
       - run:
           name: Install dependencies
@@ -38,10 +36,7 @@ jobs:
       # Run tests using pytest
       - run:
           name: Run tests
-          command: pytest --junitxml=test-results/junit.xml
-
-      - store_test_results:
-          path: test-results.xml
+          command: pytest 
 
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/configuration-reference/#workflows
@@ -49,3 +44,5 @@ workflows:
   pytest-workflow:
     jobs:
       - test
+
+ 
