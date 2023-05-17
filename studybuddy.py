@@ -395,10 +395,10 @@ class Main(QMainWindow):
         self.buttonNavigationScheduleView.setDisabled(False)
         self.buttonNavigationScheduleAdd.setDisabled(True)
         self.buttonNavigationSettings.setDisabled(False)
-        self.dataScheduleStartDate.setMinimumDate(datetime.now())
-        self.dataScheduleEndDate.setMinimumDate(datetime.now())
-        self.dataScheduleStartDate.setDate(datetime.now())
-        self.dataScheduleEndDate.setDate(datetime.now())
+        self.dataScheduleStartDate.setMinimumDate(QDate.currentDate())
+        self.dataScheduleEndDate.setMinimumDate(QDate.currentDate())
+        self.dataScheduleStartDate.setDate(QDate.currentDate())
+        self.dataScheduleEndDate.setDate(QDate.currentDate())
 
     def delete_schedule(self):
         if len(self.tableWidget.selectedItems()) > 0:
