@@ -13,10 +13,10 @@ jobs:
     steps:
       - checkout
       - python/install-packages:
-           pkg-manager: pip
+          pkg-manager: pip
       - run: 
-            name: run pytest
-            command: python -m pytest
+          name: run pytest
+          command: python -m pytest
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/configuration-reference/#workflows
 workflows:
