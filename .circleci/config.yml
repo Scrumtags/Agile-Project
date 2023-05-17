@@ -40,9 +40,9 @@ jobs:
       - run:
           name: Run tests
           command: pytest    
-          
+
       - store_test_results:
-          path: test-results.xml   
+          path: test-results
 
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/configuration-reference/#workflows
