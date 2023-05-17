@@ -23,8 +23,7 @@ jobs:
             - v1-dependencies-{{ checksum "requirements.txt" }}
             - v1-dependencies-
             
-      - python/install-packages:
-          pkg-manager: pip
+      
 
       - run:
           name: Install dependencies
