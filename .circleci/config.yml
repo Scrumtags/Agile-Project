@@ -38,7 +38,7 @@ jobs:
       # Run tests using pytest
       - run:
           name: Run tests
-          command: pytest    
+          command: pytest --junitxml=test-results/junit.xml
 
       - store_test_results:
           path: test-results
