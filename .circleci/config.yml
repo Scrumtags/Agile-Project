@@ -38,13 +38,10 @@ jobs:
       # Run tests using pytest
       - run:
           name: Run tests
-          command: |
-            . venv/bin/activate
-            mkdir test-results
-            pytest --junitxml=test-results/junit.xml
+          command: pytest --junitxml=test-results/junit.xml
 
       - store_test_results:
-          path: test-results
+          path: test-results.xml
 
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/configuration-reference/#workflows
