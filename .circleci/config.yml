@@ -7,9 +7,9 @@ version: 2.1
 jobs:
   test:
     working_directory: ~/circleci-python
-      docker:
-        - image: "circleci/python:3.6.4"
-      steps:
+    docker:
+      - image: "circleci/python:3.6.4"
+    steps:
         - checkout
         - run: pytest
 # Orchestrate jobs using workflows
