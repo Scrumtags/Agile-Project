@@ -118,7 +118,7 @@ class Main(QMainWindow):
 
     # Application Functions
     def __set_defaults(self):
-        self.selected_date = datetime.datetime.now()
+        self.selected_date = QDate.currentDate()
         self.tableSearch.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         self.tableWidget.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         self.tableviewSunday.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
@@ -137,7 +137,7 @@ class Main(QMainWindow):
     # VIEWS
 
     def popularize_weekly_list(self):
-        self.selected_date = self.calendarWidget.selectedDate()
+    
         self.min_date = self.get_sunday()
         self.data = self.connectDB.query_week(self.min_date)
         self.weekly_data = []
@@ -160,7 +160,7 @@ class Main(QMainWindow):
         self.toggle_navigation()
         self.buttonNavigationCalendarDay.setDisabled(True)
         self.populate_daily()
-        dateSelected = self.calendarWidget.selectedDate()
+        dateSelected = self.selected_date
         self.labelViewDailyDate.setText(dateSelected.toString("MMM dd"))
 
     def view_month(self):
@@ -174,7 +174,7 @@ class Main(QMainWindow):
         self.buttonNavigationCalendarWeek.setDisabled(True)
 
 
-        dateSelected = self.calendarWidget.selectedDate()
+        dateSelected = self.selected_date
 
         if dateSelected.dayOfWeek() == 7:
 
@@ -191,7 +191,7 @@ class Main(QMainWindow):
         thisWeeksSunday = datetime.datetime.fromtimestamp(mktime(thisWeeksSunday))
         thisWeeksSunday = thisWeeksSunday.strftime('%Y-%m-%d')
 
-        date_1 = datetime.strptime(thisWeeksSunday, '%Y-%m-%d')
+        date_1 = datetime.datetime.strptime(thisWeeksSunday, '%Y-%m-%d')
 
         self.sun = (date_1 + timedelta(days=0)).strftime("%B %d")
         self.mon = (date_1 + timedelta(days=1)).strftime("%B %d")
@@ -236,13 +236,13 @@ class Main(QMainWindow):
         for item in self.database_tags:
             self.comboModifyEventTagsAdd.addItem(item[1])
         self.edit_flag = 0
-        dateSelected = self.calendarWidget.selectedDate()
-        self.labelModifyEventDate.setText(dateSelected.toString("MMM dd"))
+        # dateSelected = self.calendarWidget.selectedDate()
+        # self.labelModifyEventDate.setText(dateSelected.toString("MMM dd"))
 
-        self.dataModifyEventStartDate.setMinimumDate(dateSelected)
-        self.dataModifyEventEndDate.setMinimumDate(dateSelected)
-        self.dataModifyEventStartDate.setDate(dateSelected)
-        self.dataModifyEventEndDate.setDate(dateSelected)
+        # self.dataModifyEventStartDate.setMinimumDate(dateSelected)
+        # self.dataModifyEventEndDate.setMinimumDate(dateSelected)
+        # self.dataModifyEventStartDate.setDate(dateSelected)
+        # self.dataModifyEventEndDate.setDate(dateSelected)
         self.stackedWidgetViews.setCurrentIndex(1)
 
         cur = self.connectDB.conn.cursor()
@@ -305,10 +305,22 @@ class Main(QMainWindow):
         sql = """SELECT * FROM events WHERE event_id = ?"""
         values = (self.event_id, )
 
+       
         for item in cur.execute(sql, values):
+            syear,smonth,sday = item[3].split('-')
+            eyear,emonth,eday = item[4].split('-')
+            sdateSelected = QDate(int(syear),int(smonth),int(sday))
+            edateSelected = QDate(int(eyear),int(emonth),int(eday))
             self.dataModifyEventTitle.setText(item[1])
             self.dataModifyEventDescription.setText(item[2])
             self.dataModifyEventStatus.setValue(item[5])
+
+            self.dataModifyEventStartDate.setMinimumDate(sdateSelected)
+            self.dataModifyEventEndDate.setMinimumDate(sdateSelected)
+            self.dataModifyEventStartDate.setDate(sdateSelected)
+            self.dataModifyEventEndDate.setDate(edateSelected)
+            self.labelModifyEventDate.setText(edateSelected.toString("MMM dd"))
+            self.selected_date = edateSelected
 
     def delete_event(self):
         if len(self.tableViewDaily.selectedItems()) > 0:
@@ -487,10 +499,10 @@ class Main(QMainWindow):
 
         return sunday
 
-    def select_date(self):
-        self.selected_date = self.calendarWidget.selectedDate()
-        self.selected_date = str(self.selected_date.year(
-        )) + '-'+str(self.selected_date.month())+'-'+str(self.selected_date.day())
+    # def select_date(self):
+    #     self.selected_date = 
+    #     self.selected_date = str(self.selected_date.year(
+    #     )) + '-'+str(self.selected_date.month())+'-'+str(self.selected_date.day())
 
     def set_event_defaults(self):
         self.dataModifyEventTitle.clear()
@@ -549,7 +561,7 @@ class Main(QMainWindow):
         self.tableviewSaturday.setRowCount(0)
         for task in self.weekly_data:
 
-            end_date_formatted = datetime.strptime(
+            end_date_formatted = datetime.datetime.strptime(
                 task['end_date'], "%Y-%m-%d").strftime("%B %d")
 
             if end_date_formatted == self.sun:
@@ -642,7 +654,7 @@ class Main(QMainWindow):
         """
         SQL QUERY DELETE
         """
-        dateSelected = self.calendarWidget.selectedDate()
+        dateSelected = self.selected_date
         self.labelModifyEventDate.setText(dateSelected.toString("MMM dd"))
         self.dataModifyEventStartDate.setMinimumDate(dateSelected)
         self.dataModifyEventEndDate.setMinimumDate(dateSelected)
