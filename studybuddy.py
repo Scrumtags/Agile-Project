@@ -263,19 +263,10 @@ class Main(QMainWindow):
         print(data)
         current_tags = []
         self.stackedWidgetViews.setCurrentIndex(1)
-        if data is None:
-            for column in range(self.tableModifyEventTags.columnCount()):
-                item = self.tableModifyEventTags.item(0, column)
-                if item is not None:
-                    current_tags.append(item)
-            for item in self.database_tags:
-                for tags in current_tags:
-                    if item == tags:
-                        pass
-                    else:
-                        self.comboModifyEventTagsAdd.addItem(item[1])
-
-            self.set_event_defaults()
+        self.set_event_defaults()
+        
+        
+        if not data:
             selected_row = self.tableViewDaily.selectedItems()
             if len(selected_row) < 1:
                 return
@@ -299,7 +290,22 @@ class Main(QMainWindow):
             column_number += 1
             column_count += 1
 
-
+        for column in range(self.tableModifyEventTags.columnCount()):
+            item = self.tableModifyEventTags.item(0, column)
+            
+            if item is not None:
+                current_tags.append(item)
+        # print(len(self.database_tags), " and ", len(current_tags))
+        for item in self.database_tags:
+                
+            check_same_tag = False
+            for tags in current_tags:
+                # print(f"item:{item} tags:{tags.text()}")
+                if item[1] == tags.text():
+                    check_same_tag=True
+            if check_same_tag is False:
+                self.comboModifyEventTagsAdd.addItem(item[1])
+                
         # when selecting an item on the QTableWidget it'll edit the events that you clicked
         cur = self.connectDB.conn.cursor()
         sql = """SELECT * FROM events WHERE event_id = ?"""
