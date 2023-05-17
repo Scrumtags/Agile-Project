@@ -38,7 +38,10 @@ jobs:
       # Run tests using pytest
       - run:
           name: Run tests
-          command: pytest --junitxml=test-results/junit.xml
+          command: |
+            . venv/bin/activate
+            mkdir test-results
+            pytest --junitxml=test-results/junit.xml
 
       - store_test_results:
           path: test-results
