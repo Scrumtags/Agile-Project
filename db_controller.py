@@ -210,7 +210,7 @@ class Database_Controller():
     def get_date_listing(self, date):
         if date is None:
             return
-        query = f'SELECT * FROM events where end_date = "{date.strftime("%Y-%m-%d")}" LIMIT 5'
+        query = f'SELECT * FROM events where end_date = "{date.strftime("%Y-%m-%d")}" ORDER BY completion_status'
         c = self.conn.cursor()
         data = c.execute(query)
         return data

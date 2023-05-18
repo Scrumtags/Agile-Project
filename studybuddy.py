@@ -72,10 +72,11 @@ class Main(QMainWindow):
         # Navigation Menu
 
         # Calendar
-        self.calendarwidget = CustomCalendarWidget()
-        self.calendarwidget.button_clicked.connect(self.edit_event)
-        self.calendarwidget.background_clicked.connect(self.view_day)
-        self.layoutMonthlyCalendar.addWidget(self.calendarwidget)
+        self.calendar_widget = CustomCalendarWidget()
+        self.calendar_widget.button_clicked.connect(self.edit_event)
+        self.calendar_widget.background_clicked.connect(self.view_day)
+        
+        self.layoutMonthlyCalendar.addWidget(self.calendar_widget)
         self.buttonNavigationCalendarDay.clicked.connect(self.view_day)
         self.buttonNavigationCalendarMonth.clicked.connect(self.view_month)
         self.buttonNavigationCalendarWeek.clicked.connect(self.view_week)
@@ -246,6 +247,7 @@ class Main(QMainWindow):
             row_count += 1
 
     def edit_event(self, data=None):
+        self.edit_flag = 1
         self.toggle_navigation()
         current_tags = []
         self.stackedWidgetViews.setCurrentIndex(1)
@@ -255,10 +257,8 @@ class Main(QMainWindow):
             selected_row = self.tableViewDaily.selectedItems()
             if len(selected_row) < 1:
                 return
-            self.edit_flag = 1
             table = self.tableViewDaily
             row_number = self.tableViewDaily.row(selected_row[0])
-
             self.event_id = int(table.item(row_number, 0).text())
         else:
             self.event_id = data
@@ -325,6 +325,7 @@ class Main(QMainWindow):
             self.connectDB.update_event(self.get_event_data())
         self.set_event_defaults()
         self.populate_daily()
+        self.calendar_widget.populate_days()
         self.view_day()
 
     def add_event_tag(self):
