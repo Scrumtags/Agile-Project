@@ -83,7 +83,7 @@ class DayWidget(QWidget):
             self.categoryLabel = QLabel(str(self.count))
         else:
             self.categoryLabel = QLabel("")
-        self.categoryLabel.setStyleSheet(" font-size: 8pt; color: black; ")
+        self.categoryLabel.setStyleSheet(" font-size: 8pt; color: #fcbfbb; ")
         self.categoryLabel.setAlignment(Qt.AlignRight)
         self.layout_header.addWidget(self.categoryLabel)
 
@@ -97,10 +97,11 @@ class DayWidget(QWidget):
                 listing.setFont(QFont('Arial', 8))
                 if item[5] == 0:
                     listing.setStyleSheet(" background-color: #fcbfbb; ")
+                    self.count += 1
                 self.layout_listing.addWidget(listing)
                 listing.clicked.connect(lambda checked, event_id=self.event_id: self.button_clicked.emit(event_id))
                 i += 1
-            self.count += 1
+            
             
     # def get_count(self):
     #     count = 0
