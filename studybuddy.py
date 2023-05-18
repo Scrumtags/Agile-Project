@@ -122,17 +122,12 @@ class Main(QMainWindow):
     # Application Functions
     def __set_defaults(self):
         self.selected_date = QDate.currentDate()
-        self.tableSearch.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
-        self.tableWidget.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
-        self.tableviewSunday.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
-        self.tableviewMonday.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
-        self.tableviewTuesday.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
-        self.tableviewWednesday.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
-        self.tableviewThursday.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
-        self.tableviewFriday.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
-        self.tableviewSaturday.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
-        self.tableModifyEventTags.horizontalHeader(
-        ).setSectionResizeMode(QHeaderView.Stretch)
+
+        headers = [self.tableSearch, self.tableWidget, self.tableviewSunday, self.tableviewMonday, self.tableviewTuesday, self.tableviewWednesday, self.tableviewThursday, self.tableviewFriday, self.tableviewSaturday]
+
+        for table in headers:
+            table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+
         self.stackedWidgetViews.setCurrentIndex(0)
         self.buttonNavigationCalendarMonth.setDisabled(True)
         self.popularize_weekly_list()
@@ -178,22 +173,15 @@ class Main(QMainWindow):
         self.toggle_navigation()
         self.buttonNavigationCalendarWeek.setDisabled(True)
 
-        dateSelected = self.selected_date
+        if self.selected_date.dayOfWeek() == 7:
 
-        if dateSelected.dayOfWeek() == 7:
-
-            thisWeeksSunday = time.strptime(str(dateSelected.year(
-            )) + ' ' + str(dateSelected.weekNumber()[0]) + ' 0', '%Y %W %w')
-            self.labelMonth.setText(
-                "Week"+' '+str(dateSelected.weekNumber()[0]+1)+" of "+str(self.calendarWidget.yearShown()))
+            thisWeeksSunday = time.strptime(str(self.selected_date.year()) + ' ' + str(self.selected_date.weekNumber()[0]) + ' 0', '%Y %W %w')
+            self.labelMonth.setText("Week " + str(self.selected_date.weekNumber()[0]+1)+" of "+ str(self.selected_date.year()))
         else:
-            thisWeeksSunday = time.strptime(str(dateSelected.year(
-            )) + ' ' + str(dateSelected.weekNumber()[0]-1) + ' 0', '%Y %W %w')
-            self.labelMonth.setText(
-                "Week"+' '+str(dateSelected.weekNumber()[0])+" of "+str(self.calendarWidget.yearShown()))
+            thisWeeksSunday = time.strptime(str(self.selected_date.year()) + ' ' + str(self.selected_date.weekNumber()[0]-1) + ' 0', '%Y %W %w')
+            self.labelMonth.setText("Week " + str(self.selected_date.weekNumber()[0])+" of "+ str(self.selected_date.year()))
 
-        thisWeeksSunday = datetime.datetime.fromtimestamp(
-            mktime(thisWeeksSunday))
+        thisWeeksSunday = datetime.datetime.fromtimestamp(mktime(thisWeeksSunday))
         thisWeeksSunday = thisWeeksSunday.strftime('%Y-%m-%d')
 
         date_1 = datetime.datetime.strptime(thisWeeksSunday, '%Y-%m-%d')
@@ -241,13 +229,6 @@ class Main(QMainWindow):
         for item in self.database_tags:
             self.comboModifyEventTagsAdd.addItem(item[1])
         self.edit_flag = 0
-        # dateSelected = self.calendarWidget.selectedDate()
-        # self.labelModifyEventDate.setText(dateSelected.toString("MMM dd"))
-
-        # self.dataModifyEventStartDate.setMinimumDate(dateSelected)
-        # self.dataModifyEventEndDate.setMinimumDate(dateSelected)
-        # self.dataModifyEventStartDate.setDate(dateSelected)
-        # self.dataModifyEventEndDate.setDate(dateSelected)
         self.stackedWidgetViews.setCurrentIndex(1)
 
         cur = self.connectDB.conn.cursor()
@@ -299,16 +280,13 @@ class Main(QMainWindow):
 
             if item is not None:
                 current_tags.append(item)
-        # print(len(self.database_tags), " and ", len(current_tags))
         for item in self.database_tags:
             check_same_tag = False
             for tags in current_tags:
-                # print(f"item:{item} tags:{tags.text()}")
                 if item[1] == tags.text():
                     check_same_tag = True
             if check_same_tag is False:
                 self.comboModifyEventTagsAdd.addItem(item[1])
-        # when selecting an item on the QTableWidget it'll edit the events that you clicked
         cur = self.connectDB.conn.cursor()
         sql = """SELECT * FROM events WHERE event_id = ?"""
         values = (self.event_id, )

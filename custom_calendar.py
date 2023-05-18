@@ -19,7 +19,6 @@ class DayWidget(QWidget):
             self.data = data
 
         self.event_id = int
-
         frame = QFrame()
         layout = QGridLayout(frame)
         self.setLayout(layout)
@@ -27,9 +26,9 @@ class DayWidget(QWidget):
         layout.setAlignment(Qt.AlignTop)
         self.mousePressEvent
 
-        layout.setContentsMargins(10, 0, 10, 0)  # Set left and right margins
+        layout.setContentsMargins(10, 0, 10, 0)
         self.setLayout(layout)
-        self.setAutoFillBackground(True)  # Enable auto-fill background
+        self.setAutoFillBackground(True)
 
         # Set the background color to white
         palette = self.palette()
@@ -37,6 +36,8 @@ class DayWidget(QWidget):
         self.setPalette(palette)
 
         self.labelDay = QLabel(data['date'].strftime("%B %d"))
+        self.labelDay.setContentsMargins(0, 0, 0, 5)
+
         self.categoryLabel = QLabel("")
         self.categoryLabel.setAlignment(Qt.AlignCenter)
 
@@ -65,18 +66,19 @@ class DayWidget(QWidget):
 class CustomCalendarWidget(QWidget):
     button_clicked = pyqtSignal(object)
     background_clicked = pyqtSignal(object)
-    
+
     def __init__(self, parent=None):
         super().__init__()
-
         self.db_connection = Database_Controller()
         self.current_date = datetime.datetime.now()
         self.main_layout = QVBoxLayout(self)
+        self.main_layout.setContentsMargins(0, 0, 0, 0)
         self.setLayout(self.main_layout)
         self.layoutUpper = QHBoxLayout()
         self.main_layout.setStretchFactor(self.layoutUpper, 20)
         self.layoutMiddle = QHBoxLayout()
         self.main_layout.setStretchFactor(self.layoutMiddle, 20)
+        self.layoutUpper.setContentsMargins(0, 0, 0, 10)
 
         self.buttonNextMonth = QPushButton("Next")
         self.buttonPreviousMonth = QPushButton("Prev")
@@ -141,7 +143,7 @@ class CustomCalendarWidget(QWidget):
         self.button_clicked.emit(listing)
 
     def clear_days(self):
-        for i in reversed(range(self.days_layout.count())):
+        for i in range(self.days_layout.count()):
             item = self.days_layout.itemAt(i)
             item.widget().close()
 
