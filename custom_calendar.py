@@ -7,7 +7,8 @@ from datetime import timedelta
 
 
 class DayWidget(QWidget):
-    signal = pyqtSignal(object)
+    button_clicked = pyqtSignal(object)
+    background_clicked = pyqtSignal(object)
 
     def __init__(self, data, parent=None):
         super().__init__()
@@ -17,11 +18,23 @@ class DayWidget(QWidget):
         else:
             self.data = data
 
+        self.event_id = int
+
         frame = QFrame()
         layout = QGridLayout(frame)
         self.setLayout(layout)
         layout.setSpacing(0)
         layout.setAlignment(Qt.AlignTop)
+        self.mousePressEvent
+
+        layout.setContentsMargins(10, 0, 10, 0)  # Set left and right margins
+        self.setLayout(layout)
+        self.setAutoFillBackground(True)  # Enable auto-fill background
+
+        # Set the background color to white
+        palette = self.palette()
+        palette.setColor(QPalette.Background, Qt.white)
+        self.setPalette(palette)
 
         self.labelDay = QLabel(data['date'].strftime("%B %d"))
         self.categoryLabel = QLabel("")
@@ -32,30 +45,34 @@ class DayWidget(QWidget):
 
         i = 0
         for item in self.data['data']:
-            event_id = item[0]
+            self.event_id = item[0]
             listing = QPushButton(item[1])
             listing.setFont(QFont('Arial', 8))
             layout.addWidget(listing, i + 1, 0, 1, 3)
             listing.clicked.connect(
-                lambda checked, event_id=event_id: self.clicked_event(event_id))
+                lambda checked, event_id=self.event_id: self.button_clicked.emit(event_id))
             i += 1
 
-    def clicked_event(self, listing_id):
-        self.signal.emit(listing_id)
+    def background_clicked_event(self):
+        date = QDate(self.data['date'].year, self.data['date'].month, self.data['date'].day)
+        self.background_clicked.emit(date)
+
+    def mousePressEvent(self, event):
+        if event.button() == Qt.LeftButton:
+            self.background_clicked_event()
 
 
 class CustomCalendarWidget(QWidget):
-    signal = pyqtSignal(object)
-
+    button_clicked = pyqtSignal(object)
+    background_clicked = pyqtSignal(object)
+    
     def __init__(self, parent=None):
         super().__init__()
 
         self.db_connection = Database_Controller()
         self.current_date = datetime.datetime.now()
-
         self.main_layout = QVBoxLayout(self)
         self.setLayout(self.main_layout)
-
         self.layoutUpper = QHBoxLayout()
         self.main_layout.setStretchFactor(self.layoutUpper, 20)
         self.layoutMiddle = QHBoxLayout()
@@ -114,10 +131,14 @@ class CustomCalendarWidget(QWidget):
                 dayWidget = DayWidget(data, parent=self)
                 self.days_layout.addWidget(dayWidget, row, column)
                 date = date + timedelta(days=1)
-                dayWidget.signal.connect(self.test_emit)
+                dayWidget.button_clicked.connect(self.button_emit)
+                dayWidget.background_clicked.connect(self.background_emit)
 
-    def test_emit(self, listing):
-        self.signal.emit(listing)
+    def background_emit(self, date):
+        self.background_clicked.emit(date)
+
+    def button_emit(self, listing):
+        self.button_clicked.emit(listing)
 
     def clear_days(self):
         for i in reversed(range(self.days_layout.count())):

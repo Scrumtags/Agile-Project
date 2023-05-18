@@ -1,4 +1,6 @@
-import sys, time, datetime
+import sys
+import time
+import datetime
 from time import mktime
 from PyQt5.QtWidgets import *
 from datetime import datetime, timedelta
@@ -71,7 +73,8 @@ class Main(QMainWindow):
 
         # Calendar
         self.calendarwidget = CustomCalendarWidget()
-        self.calendarwidget.signal.connect(self.edit_event)
+        self.calendarwidget.button_clicked.connect(self.edit_event)
+        self.calendarwidget.background_clicked.connect(self.view_day)
         self.layoutMonthlyCalendar.addWidget(self.calendarwidget)
         self.buttonNavigationCalendarDay.clicked.connect(self.view_day)
         self.buttonNavigationCalendarMonth.clicked.connect(self.view_month)
@@ -128,7 +131,8 @@ class Main(QMainWindow):
         self.tableviewThursday.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         self.tableviewFriday.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         self.tableviewSaturday.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
-        self.tableModifyEventTags.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        self.tableModifyEventTags.horizontalHeader(
+        ).setSectionResizeMode(QHeaderView.Stretch)
         self.stackedWidgetViews.setCurrentIndex(0)
         self.buttonNavigationCalendarMonth.setDisabled(True)
         self.popularize_weekly_list()
@@ -137,7 +141,7 @@ class Main(QMainWindow):
     # VIEWS
 
     def popularize_weekly_list(self):
-    
+
         self.min_date = self.get_sunday()
         self.data = self.connectDB.query_week(self.min_date)
         self.weekly_data = []
@@ -155,13 +159,14 @@ class Main(QMainWindow):
         self.tableWidget.setColumnHidden(0, True)
     # VIEWS
 
-    def view_day(self):
+    def view_day(self, data=None):
+        if data:
+            self.selected_date = data
         self.stackedWidgetViews.setCurrentIndex(2)
         self.toggle_navigation()
         self.buttonNavigationCalendarDay.setDisabled(True)
         self.populate_daily()
-        dateSelected = self.selected_date
-        self.labelViewDailyDate.setText(dateSelected.toString("MMM dd"))
+        self.labelViewDailyDate.setText(self.selected_date.toString("MMM dd"))
 
     def view_month(self):
         self.stackedWidgetViews.setCurrentIndex(0)
@@ -172,7 +177,6 @@ class Main(QMainWindow):
         self.stackedWidgetViews.setCurrentIndex(3)
         self.toggle_navigation()
         self.buttonNavigationCalendarWeek.setDisabled(True)
-
 
         dateSelected = self.selected_date
 
@@ -188,7 +192,8 @@ class Main(QMainWindow):
             self.labelMonth.setText(
                 "Week"+' '+str(dateSelected.weekNumber()[0])+" of "+str(self.calendarWidget.yearShown()))
 
-        thisWeeksSunday = datetime.datetime.fromtimestamp(mktime(thisWeeksSunday))
+        thisWeeksSunday = datetime.datetime.fromtimestamp(
+            mktime(thisWeeksSunday))
         thisWeeksSunday = thisWeeksSunday.strftime('%Y-%m-%d')
 
         date_1 = datetime.datetime.strptime(thisWeeksSunday, '%Y-%m-%d')
@@ -260,12 +265,11 @@ class Main(QMainWindow):
             row_count += 1
 
     def edit_event(self, data=None):
-        print(data)
+        self.toggle_navigation()
         current_tags = []
         self.stackedWidgetViews.setCurrentIndex(1)
         self.set_event_defaults()
-        
-        
+
         if not data:
             selected_row = self.tableViewDaily.selectedItems()
             if len(selected_row) < 1:
@@ -292,31 +296,28 @@ class Main(QMainWindow):
 
         for column in range(self.tableModifyEventTags.columnCount()):
             item = self.tableModifyEventTags.item(0, column)
-            
+
             if item is not None:
                 current_tags.append(item)
         # print(len(self.database_tags), " and ", len(current_tags))
         for item in self.database_tags:
-                
             check_same_tag = False
             for tags in current_tags:
                 # print(f"item:{item} tags:{tags.text()}")
                 if item[1] == tags.text():
-                    check_same_tag=True
+                    check_same_tag = True
             if check_same_tag is False:
                 self.comboModifyEventTagsAdd.addItem(item[1])
-                
         # when selecting an item on the QTableWidget it'll edit the events that you clicked
         cur = self.connectDB.conn.cursor()
         sql = """SELECT * FROM events WHERE event_id = ?"""
         values = (self.event_id, )
 
-       
         for item in cur.execute(sql, values):
-            syear,smonth,sday = item[3].split('-')
-            eyear,emonth,eday = item[4].split('-')
-            sdateSelected = QDate(int(syear),int(smonth),int(sday))
-            edateSelected = QDate(int(eyear),int(emonth),int(eday))
+            syear, smonth, sday = item[3].split('-')
+            eyear, emonth, eday = item[4].split('-')
+            sdateSelected = QDate(int(syear), int(smonth), int(sday))
+            edateSelected = QDate(int(eyear), int(emonth), int(eday))
             self.dataModifyEventTitle.setText(item[1])
             self.dataModifyEventDescription.setText(item[2])
             self.dataModifyEventStatus.setValue(item[5])
@@ -481,7 +482,8 @@ class Main(QMainWindow):
     # OTHER
 
     def toggle_navigation(self):
-        buttons = [self.buttonNavigationCalendarDay, self.buttonNavigationCalendarWeek, self.buttonNavigationCalendarMonth, self.buttonNavigationSearch, self.buttonNavigationScheduleView, self.buttonNavigationScheduleAdd, self.buttonNavigationSettings]
+        buttons = [self.buttonNavigationCalendarDay, self.buttonNavigationCalendarWeek, self.buttonNavigationCalendarMonth,
+                   self.buttonNavigationSearch, self.buttonNavigationScheduleView, self.buttonNavigationScheduleAdd, self.buttonNavigationSettings]
         for button in buttons:
             button.setDisabled(False)
 
@@ -499,14 +501,15 @@ class Main(QMainWindow):
             thisWeeksSunday = time.strptime(str(self.selected_date.year(
             )) + ' ' + str(self.selected_date.weekNumber()[0]-1) + ' 0', '%Y %W %w')
 
-        thisWeeksSunday = datetime.datetime.fromtimestamp(mktime(thisWeeksSunday))
+        thisWeeksSunday = datetime.datetime.fromtimestamp(
+            mktime(thisWeeksSunday))
         thisWeeksSunday = thisWeeksSunday.strftime('%Y-%m-%d')
         sunday = datetime.datetime.strptime(thisWeeksSunday, "%Y-%m-%d")
 
         return sunday
 
     # def select_date(self):
-    #     self.selected_date = 
+    #     self.selected_date =
     #     self.selected_date = str(self.selected_date.year(
     #     )) + '-'+str(self.selected_date.month())+'-'+str(self.selected_date.day())
 
