@@ -35,3 +35,4 @@ traitlets==5.9.0
 virtualenv==20.23.0
 virtualenv-clone==0.5.7
 wcwidth==0.2.6
+requests==2.30.0
