@@ -54,7 +54,7 @@ class DayWidget(QWidget):
         self.layout_main.setSpacing(0)
         self.layout_listing.setSpacing(0)
         self.layout_main.setContentsMargins(4, 4, 4, 4)
-        self.layout_listing.setAlignment(Qt.AlignTop)  
+        self.layout_listing.setAlignment(Qt.AlignTop) 
         # layout_header.setContentsMargins(10, 0, 10, 0)
         self.setAutoFillBackground(True)
 
@@ -178,11 +178,17 @@ class CustomCalendarWidget(QWidget):
         self.set_defaults()
 
     def set_defaults(self):
+        # delete all daywidgets
         self.clear_days()
+        # set month label
         self.get_month()
+        # calculate first day of month
         self.first = self.calculate_first()
+        # calculate day of week
         self.day_of_week = self.calculate_day()
+        # calculate start date for the calendar
         self.start_date = self.calculate_start()
+        # populate daywidgets
         self.populate_days()
 
     # button to add 1 month

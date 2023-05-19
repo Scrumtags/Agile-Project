@@ -519,7 +519,7 @@ class Main(QMainWindow):
                 "title": self.dataModifyEventTitle.text(),
                 # "tags": self.dataModifyEventTags.text(),
                 "description": self.dataModifyEventDescription.toPlainText(),
-                "start_date": self.dataModifyEventStartDate.text().spli,
+                "start_date": self.dataModifyEventStartDate.text(),
                 "end_date": self.dataModifyEventEndDate.text(),
                 "completion_status": self.dataModifyEventStatus.value()
             }
