@@ -1,4 +1,4 @@
-import pytest, sqlite3
+import pytest, sqlite3, requests
 from unittest.mock import patch, mock_open
 
 from studybuddy import Database_Controller, Main
