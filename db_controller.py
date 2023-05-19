@@ -1,13 +1,40 @@
 import sqlite3, datetime
 from sqlite3 import Error 
 from datetime import timedelta
-    
+from api_controller import HolidayAPI
 class Database_Controller():
     def __init__(self):
         self.path = "./database.db"
 
         self.conn = self.create_connection()
         self.create_tables()
+        self.insert_holidays()
+
+    def insert_holidays(self):
+        self.holiday = HolidayAPI()
+        province = self.holiday.get_holidays("BC")
+        holidays = province["province"]
+        days = holidays["holidays"]
+       
+        list_of_holidays = []
+        for day in days:
+            year, month, day2 = day['date'].split('-')
+            newDate = datetime.date(int(year), int(month), int(day2))
+            if datetime.date.today() <= newDate:
+                title = day['nameEn']
+                start_date = day['date']
+                end_date = day['date']
+                status = 0
+                list_of_holidays.append({'title':title, 'start_date':start_date,'end_date':end_date,'status':status})
+        
+        if list_of_holidays:
+            for day in list_of_holidays:
+                sql = """INSERT INTO events(title,start_date,end_date,completion_status) VALUES(?,?,?,?);"""
+                params = (day['title'], day['start_date'], day['end_date'], day['status'])
+                print("event has been created")
+                c = self.conn.cursor()
+                c.execute(sql, params)
+                self.conn.commit()
 
     def create_connection(self):
         conn = None
