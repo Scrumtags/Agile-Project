@@ -58,8 +58,9 @@ class DayWidget(QWidget):
         # layout_header.setContentsMargins(10, 0, 10, 0)
         self.setAutoFillBackground(True)
 
+        today = datetime.datetime.today().strftime('%Y-%m-%d')
         # Set the background color to white if current_date.month == data['date'].month
-        if self.current_date.day == self.data['date'].day:
+        if today == self.data['date'].strftime('%Y-%m-%d'):
             palette = self.palette()
             palette.setColor(QPalette.Background, QColor(179, 245, 196))
             self.setPalette(palette)
