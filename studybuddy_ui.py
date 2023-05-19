@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'c:\Users\Atlas\Desktop\revision\studybuddy.ui'
+# Form implementation generated from reading ui file 'c:\Users\Atlas\Desktop\Agile-Project\studybuddy.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.9
 #
@@ -688,6 +688,7 @@ class Ui_StudyBuddy(object):
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.frameSettings)
         self.verticalLayout_3.setObjectName("verticalLayout_3")
         self.frameSettingsTitle = QtWidgets.QFrame(self.frameSettings)
+        self.frameSettingsTitle.setMaximumSize(QtCore.QSize(16777215, 50))
         self.frameSettingsTitle.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frameSettingsTitle.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frameSettingsTitle.setObjectName("frameSettingsTitle")
@@ -695,7 +696,7 @@ class Ui_StudyBuddy(object):
         self.labelSettings.setGeometry(QtCore.QRect(10, 10, 81, 31))
         self.labelSettings.setObjectName("labelSettings")
         self.lineSettingsTitle = QtWidgets.QFrame(self.frameSettingsTitle)
-        self.lineSettingsTitle.setGeometry(QtCore.QRect(10, 170, 1301, 16))
+        self.lineSettingsTitle.setGeometry(QtCore.QRect(10, 40, 1301, 16))
         self.lineSettingsTitle.setFrameShape(QtWidgets.QFrame.HLine)
         self.lineSettingsTitle.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.lineSettingsTitle.setObjectName("lineSettingsTitle")
@@ -710,10 +711,10 @@ class Ui_StudyBuddy(object):
         self.lineSettingsOne.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.lineSettingsOne.setObjectName("lineSettingsOne")
         self.buttonSettingsHolidayImport = QtWidgets.QPushButton(self.frameSettingsOne)
-        self.buttonSettingsHolidayImport.setGeometry(QtCore.QRect(10, 50, 81, 41))
+        self.buttonSettingsHolidayImport.setGeometry(QtCore.QRect(10, 70, 81, 41))
         self.buttonSettingsHolidayImport.setObjectName("buttonSettingsHolidayImport")
         self.comboBoxHolidayImport = QtWidgets.QComboBox(self.frameSettingsOne)
-        self.comboBoxHolidayImport.setGeometry(QtCore.QRect(10, 20, 191, 22))
+        self.comboBoxHolidayImport.setGeometry(QtCore.QRect(10, 40, 191, 22))
         self.comboBoxHolidayImport.setObjectName("comboBoxHolidayImport")
         self.comboBoxHolidayImport.addItem("")
         self.comboBoxHolidayImport.setItemText(0, "")
@@ -730,14 +731,14 @@ class Ui_StudyBuddy(object):
         self.comboBoxHolidayImport.addItem("")
         self.comboBoxHolidayImport.addItem("")
         self.comboBoxHolidayImport.addItem("")
+        self.labelSettings_2 = QtWidgets.QLabel(self.frameSettingsOne)
+        self.labelSettings_2.setGeometry(QtCore.QRect(10, 0, 191, 31))
+        self.labelSettings_2.setObjectName("labelSettings_2")
         self.verticalLayout_3.addWidget(self.frameSettingsOne)
         self.frameSettingsTwo = QtWidgets.QFrame(self.frameSettings)
         self.frameSettingsTwo.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frameSettingsTwo.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frameSettingsTwo.setObjectName("frameSettingsTwo")
-        self.checkBoxSettingsEventID = QtWidgets.QCheckBox(self.frameSettingsTwo)
-        self.checkBoxSettingsEventID.setGeometry(QtCore.QRect(10, 20, 141, 17))
-        self.checkBoxSettingsEventID.setObjectName("checkBoxSettingsEventID")
         self.lineSettingsTwo = QtWidgets.QFrame(self.frameSettingsTwo)
         self.lineSettingsTwo.setGeometry(QtCore.QRect(10, 170, 1301, 16))
         self.lineSettingsTwo.setFrameShape(QtWidgets.QFrame.HLine)
@@ -748,15 +749,6 @@ class Ui_StudyBuddy(object):
         self.frameSettingsData.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frameSettingsData.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frameSettingsData.setObjectName("frameSettingsData")
-        self.labelSettingsData = QtWidgets.QLabel(self.frameSettingsData)
-        self.labelSettingsData.setGeometry(QtCore.QRect(10, 10, 91, 16))
-        self.labelSettingsData.setObjectName("labelSettingsData")
-        self.buttonSettingsDataImport = QtWidgets.QPushButton(self.frameSettingsData)
-        self.buttonSettingsDataImport.setGeometry(QtCore.QRect(10, 60, 81, 41))
-        self.buttonSettingsDataImport.setObjectName("buttonSettingsDataImport")
-        self.buttonSettingsDataExport = QtWidgets.QPushButton(self.frameSettingsData)
-        self.buttonSettingsDataExport.setGeometry(QtCore.QRect(100, 60, 81, 41))
-        self.buttonSettingsDataExport.setObjectName("buttonSettingsDataExport")
         self.verticalLayout_3.addWidget(self.frameSettingsData)
         self.stackedWidgetViews.addWidget(self.pageViewSettings)
         self.gridLayout.addWidget(self.stackedWidgetViews, 0, 2, 1, 1)
@@ -769,7 +761,7 @@ class Ui_StudyBuddy(object):
         self.actionExit.setObjectName("actionExit")
 
         self.retranslateUi(StudyBuddy)
-        self.stackedWidgetViews.setCurrentIndex(7)
+        self.stackedWidgetViews.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(StudyBuddy)
 
     def retranslateUi(self, StudyBuddy):
@@ -912,8 +904,5 @@ class Ui_StudyBuddy(object):
         self.comboBoxHolidayImport.setItemText(11, _translate("StudyBuddy", "Quebec"))
         self.comboBoxHolidayImport.setItemText(12, _translate("StudyBuddy", "Sakatchewan"))
         self.comboBoxHolidayImport.setItemText(13, _translate("StudyBuddy", "Yukon"))
-        self.checkBoxSettingsEventID.setText(_translate("StudyBuddy", "Show Event ID\'s"))
-        self.labelSettingsData.setText(_translate("StudyBuddy", "Data"))
-        self.buttonSettingsDataImport.setText(_translate("StudyBuddy", "Import"))
-        self.buttonSettingsDataExport.setText(_translate("StudyBuddy", "Export"))
+        self.labelSettings_2.setText(_translate("StudyBuddy", "Import Holidays"))
         self.actionExit.setText(_translate("StudyBuddy", "Exit"))

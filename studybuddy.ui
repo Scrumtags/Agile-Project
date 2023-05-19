@@ -296,7 +296,7 @@
        <string notr="true"/>
       </property>
       <property name="currentIndex">
-       <number>7</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="pageViewMonth">
        <property name="styleSheet">
@@ -1691,6 +1691,12 @@ font-size: 25px
         <layout class="QVBoxLayout" name="verticalLayout_3">
          <item>
           <widget class="QFrame" name="frameSettingsTitle">
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>50</height>
+            </size>
+           </property>
            <property name="frameShape">
             <enum>QFrame::StyledPanel</enum>
            </property>
@@ -1714,7 +1720,7 @@ font-size: 25px
             <property name="geometry">
              <rect>
               <x>10</x>
-              <y>170</y>
+              <y>40</y>
               <width>1301</width>
               <height>16</height>
              </rect>
@@ -1750,7 +1756,7 @@ font-size: 25px
             <property name="geometry">
              <rect>
               <x>10</x>
-              <y>50</y>
+              <y>70</y>
               <width>81</width>
               <height>41</height>
              </rect>
@@ -1763,7 +1769,7 @@ font-size: 25px
             <property name="geometry">
              <rect>
               <x>10</x>
-              <y>20</y>
+              <y>40</y>
               <width>191</width>
               <height>22</height>
              </rect>
@@ -1839,6 +1845,19 @@ font-size: 25px
              </property>
             </item>
            </widget>
+           <widget class="QLabel" name="labelSettings_2">
+            <property name="geometry">
+             <rect>
+              <x>10</x>
+              <y>0</y>
+              <width>191</width>
+              <height>31</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Import Holidays</string>
+            </property>
+           </widget>
           </widget>
          </item>
          <item>
@@ -1849,19 +1868,6 @@ font-size: 25px
            <property name="frameShadow">
             <enum>QFrame::Raised</enum>
            </property>
-           <widget class="QCheckBox" name="checkBoxSettingsEventID">
-            <property name="geometry">
-             <rect>
-              <x>10</x>
-              <y>20</y>
-              <width>141</width>
-              <height>17</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>Show Event ID's</string>
-            </property>
-           </widget>
            <widget class="Line" name="lineSettingsTwo">
             <property name="geometry">
              <rect>
@@ -1885,45 +1891,6 @@ font-size: 25px
            <property name="frameShadow">
             <enum>QFrame::Raised</enum>
            </property>
-           <widget class="QLabel" name="labelSettingsData">
-            <property name="geometry">
-             <rect>
-              <x>10</x>
-              <y>10</y>
-              <width>91</width>
-              <height>16</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>Data</string>
-            </property>
-           </widget>
-           <widget class="QPushButton" name="buttonSettingsDataImport">
-            <property name="geometry">
-             <rect>
-              <x>10</x>
-              <y>60</y>
-              <width>81</width>
-              <height>41</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>Import</string>
-            </property>
-           </widget>
-           <widget class="QPushButton" name="buttonSettingsDataExport">
-            <property name="geometry">
-             <rect>
-              <x>100</x>
-              <y>60</y>
-              <width>81</width>
-              <height>41</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>Export</string>
-            </property>
-           </widget>
           </widget>
          </item>
         </layout>
