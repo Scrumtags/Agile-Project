@@ -1,13 +1,56 @@
-import sqlite3, datetime
-from sqlite3 import Error 
+import sqlite3, datetime, requests
+from sqlite3 import Error
 from datetime import timedelta
-    
+
 class Database_Controller():
     def __init__(self):
         self.path = "./database.db"
 
         self.conn = self.create_connection()
         self.create_tables()
+
+    def get_holidays(self, index):
+        province_url = "https://canada-holidays.ca/api/v1/provinces/"
+        provinces = ["AB", "BC", "MB", "NB", "NL", "NS",
+                     "NT", "NU", "ON", "PE", "QC", "SK", "YT"]
+
+        print(index)
+        province = provinces[index-1]
+
+        print(f'got {province}')
+
+        url = province_url + province
+
+        try:
+            data = requests.get(
+                url, headers={'Accept': 'application/json'}).json()
+        except requests.HTTPError as err:
+            print(err)
+
+        holidays = data["province"]
+        days = holidays["holidays"]
+
+        list_of_holidays = []
+        for day in days:
+            year, month, day2 = day['date'].split('-')
+            newDate = datetime.date(int(year), int(month), int(day2))
+            title = day['nameEn']
+            start_date = day['date']
+            end_date = day['date']
+            if datetime.date.today() <= newDate:
+                status = 0
+            else:
+                status = 1
+            list_of_holidays.append({'title':title, 'start_date':start_date,'end_date':end_date,'status':status})
+
+        if list_of_holidays:
+            for day in list_of_holidays:
+                sql = """INSERT INTO events(title,start_date,end_date,completion_status) VALUES(?,?,?,?);"""
+                params = (day['title'], day['start_date'], day['end_date'], day['status'])
+                print("event has been created")
+                c = self.conn.cursor()
+                c.execute(sql, params)
+                self.conn.commit()
 
     def create_connection(self):
         conn = None

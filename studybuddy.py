@@ -117,6 +117,9 @@ class Main(QMainWindow):
         # self.calendarWidget.clicked.connect(self.select_date)
         # self.calendarWidget.activated.connect(self.view_day)
 
+        # Settings
+        self.buttonSettingsHolidayImport.clicked.connect(self.get_holidays)
+
         # Defaults
         self.__set_defaults()
 
@@ -718,6 +721,10 @@ class Main(QMainWindow):
                 tablerow += 1
                 row_count += 1
 
+    def get_holidays(self):
+        province_id =  self.comboBoxHolidayImport.currentIndex()
+        if province_id != 0:
+            self.connectDB.get_holidays(province_id)
 
 if __name__ == "__main__":
     """
