@@ -652,12 +652,21 @@ class Main(QMainWindow):
 
         # Grab data from database and populate qLineEdit boxes
         cur = self.connectDB.conn.cursor()
+        cur2 = self.connectDB.conn.cursor()
         query = """SELECT * FROM events where date(end_date) = ?"""
         params = (dateSelected.toString("yyyy-MM-dd"), )
         row_count = 1
         tablerow = 0
         for row in cur.execute(query, params):
             if row is not None:
+                query_tag = """SELECT tags.tag_name FROM event_tags, tags WHERE event_tags.tag_id = tags.tag_id and event_tags.event_id = ?"""
+                params_tag = (str(row[0]),)
+                tag_list = []
+                tag_str = ""
+                for tag in cur2.execute(query_tag,params_tag):
+                    tag_list.append(tag[0])
+                tag_str = ', '.join(tag_list)
+                
                 self.tableViewDaily.setRowCount(row_count)
                 # event_id - hidden
                 self.tableViewDaily.setItem(
@@ -665,6 +674,8 @@ class Main(QMainWindow):
                 # title
                 self.tableViewDaily.setItem(
                     tablerow, 1, QTableWidgetItem(row[1]))
+                self.tableViewDaily.setItem(
+                    tablerow, 2, QTableWidgetItem(tag_str))
                 # start date
                 self.tableViewDaily.setItem(
                     tablerow, 3, QTableWidgetItem(row[4]))

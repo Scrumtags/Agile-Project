@@ -83,7 +83,8 @@ class DayWidget(QWidget):
             self.categoryLabel = QLabel(str(self.count))
         else:
             self.categoryLabel = QLabel("")
-        self.categoryLabel.setStyleSheet(" font-size: 8pt; color: #fcbfbb; ")
+        # self.categoryLabel.setStyleSheet(" font-size: 8pt; color: #fcbfbb; ")
+        self.categoryLabel.setStyleSheet(" color: #fcbfbb; ")
         self.categoryLabel.setAlignment(Qt.AlignRight)
         self.layout_header.addWidget(self.categoryLabel)
 
