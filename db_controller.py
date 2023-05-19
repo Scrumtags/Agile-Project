@@ -186,7 +186,7 @@ class Database_Controller():
         query = f'SELECT * FROM tags WHERE tag_id = ?'
         c = self.conn
         for tag_id in data:
-            params = (tag_id[1], )
+            params = (tag_id, )
             data = c.execute(query, params)
             tag_names.append(data.fetchone()[1])
         return tag_names

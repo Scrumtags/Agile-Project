@@ -46,8 +46,22 @@ def test_delete_event(db_controller):
     assert result is None
 
 def test_update_event(db_controller):
+    data = {
+        'title': 'Test Title',
+        'description': 'Test Description',
+        'start_date': '2023-05-07',
+        'end_date': '2023-05-07',
+        'completion_status': 0
+    }
+
+    c = db_controller.conn.cursor()
+    c.execute("INSERT INTO events (title, description, start_date, end_date, completion_status) VALUES (?, ?, ?, ?, ?)",
+              (data['title'], data['description'], data['start_date'], data['end_date'], data['completion_status']))
+
+    event_id = c.lastrowid
+
     updated_data = {
-        'event_id': 2,
+        'event_id': event_id,
         'title': 'Updated Event',
         'tags': 'Updated Tags',
         'description': 'Updated Description',
@@ -56,12 +70,11 @@ def test_update_event(db_controller):
         'completion_status': 1
     }
 
-    event_id = updated_data['event_id']
     db_controller.update_event(updated_data)
 
     query = "SELECT * FROM events WHERE event_id = ?"
-    params = (event_id,)
-    result = db_controller.conn.execute(query, params).fetchone()
+    params = (event_id, )
+    result = c.execute(query, params).fetchone()
 
     assert result is not None
     assert result[1] == updated_data['title']
@@ -184,7 +197,14 @@ def test_get_event_tags(db_controller):
     assert result is not None
 
 def test_get_tags(db_controller):
-    tag_ids = [(1, 2, 3)]
+    c = db_controller.conn.cursor()
+
+    tags = ['tag1', 'tag2', 'tag3']
+
+    for tag in tags:
+        c.execute("INSERT INTO tags (tag_name) VALUES (?)", (tag,))
+
+    tag_ids = [1, 2, 3]
 
     result = db_controller.get_tags(tag_ids)
 
