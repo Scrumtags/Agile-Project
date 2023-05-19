@@ -300,8 +300,7 @@ class Main(QMainWindow):
             self.dataModifyEventDescription.setText(item[2])
             self.dataModifyEventStatus.setValue(item[5])
 
-            self.dataModifyEventStartDate.setMinimumDate(sdateSelected)
-            self.dataModifyEventEndDate.setMinimumDate(sdateSelected)
+            self.dataModifyEventEndDate.setMinimumDate(edateSelected)
             self.dataModifyEventStartDate.setDate(sdateSelected)
             self.dataModifyEventEndDate.setDate(edateSelected)
             self.labelModifyEventDate.setText(edateSelected.toString("MMM dd"))
@@ -320,8 +319,10 @@ class Main(QMainWindow):
 
     def event_manager(self):
         if self.edit_flag == 0:
+            print("edit_flag 0")
             self.connectDB.create_event(self.get_event_data())
         elif self.edit_flag == 1:
+            print("edit_flag 1 ")
             self.connectDB.update_event(self.get_event_data())
         self.set_event_defaults()
         self.populate_daily()
@@ -515,7 +516,7 @@ class Main(QMainWindow):
                 "title": self.dataModifyEventTitle.text(),
                 # "tags": self.dataModifyEventTags.text(),
                 "description": self.dataModifyEventDescription.toPlainText(),
-                "start_date": self.dataModifyEventStartDate.text(),
+                "start_date": self.dataModifyEventStartDate.text().spli,
                 "end_date": self.dataModifyEventEndDate.text(),
                 "completion_status": self.dataModifyEventStatus.value()
             }

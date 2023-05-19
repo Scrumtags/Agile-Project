@@ -105,19 +105,29 @@ class Database_Controller():
         event_id = self.data['event_id']
         title = self.data['title']
         description = self.data['description']
+
+        
         start_date = self.data['start_date']
         end_date = self.data['end_date']
+        
         completion_status = self.data['completion_status']
 
         sql = """UPDATE events SET title = ?, description = ?, start_date= ?, end_date = ?, completion_status = ? WHERE event_id = ? """
-
+        
         params = (title, description, start_date,
                   end_date, completion_status, event_id)
-
+        
         c = self.conn.cursor()
         c.execute(sql, params)
+        
         self.conn.commit()
+        testsql = """select * from events where event_id = ?"""
+        testpara = (event_id, )
+        c = self.conn.cursor()
+        testdata = c.execute(testsql,testpara)
 
+        for row in testdata:
+            print(row)
     def get_schedule_tags(self, schedule_id):
         pass
 
