@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1410</width>
+    <width>1419</width>
     <height>882</height>
    </rect>
   </property>
@@ -18,7 +18,16 @@
     <string notr="true">QWidget{
   font-family: -apple-system,system-ui,&quot;Segoe UI&quot;,&quot;Liberation Sans&quot;,sans-serif;
 }
-
+.QPushButton {
+  background-color: #e1ecf4;
+  border-radius: 3px;
+  border: 1px solid #7aa7c7;
+  color: #39739d;
+  font-size: 15px;
+  font-weight: 400;
+  margin: 1;
+  outline: none;
+}
 .QLabel{
 	font-size: 17px;
 	font-weight: bold;
@@ -30,6 +39,12 @@
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
      <widget class="QFrame" name="frameNavigation">
+      <property name="minimumSize">
+       <size>
+        <width>130</width>
+        <height>0</height>
+       </size>
+      </property>
       <property name="styleSheet">
        <string notr="true">QPushButton:disabled {
 
@@ -45,6 +60,21 @@
        <enum>QFrame::Raised</enum>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <property name="leftMargin">
+        <number>10</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
        <item>
         <widget class="QFrame" name="frameNavigationCalendar">
          <property name="minimumSize">
@@ -79,7 +109,7 @@
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>40</y>
+            <y>150</y>
             <width>101</width>
             <height>51</height>
            </rect>
@@ -95,7 +125,7 @@
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>100</y>
+            <y>90</y>
             <width>101</width>
             <height>51</height>
            </rect>
@@ -108,7 +138,7 @@
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>160</y>
+            <y>30</y>
             <width>101</width>
             <height>51</height>
            </rect>
@@ -237,6 +267,12 @@
           </item>
           <item>
            <widget class="QPushButton" name="buttonNavigationSettings">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>50</height>
+             </size>
+            </property>
             <property name="text">
              <string>Settings</string>
             </property>
@@ -248,7 +284,7 @@
       </layout>
      </widget>
     </item>
-    <item row="0" column="1">
+    <item row="0" column="2">
      <widget class="QStackedWidget" name="stackedWidgetViews">
       <property name="minimumSize">
        <size>
@@ -282,8 +318,30 @@
            <enum>QFrame::Raised</enum>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_6">
+           <property name="spacing">
+            <number>0</number>
+           </property>
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
            <item>
-            <layout class="QVBoxLayout" name="layoutMonthlyCalendar"/>
+            <layout class="QVBoxLayout" name="layoutMonthlyCalendar">
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <property name="sizeConstraint">
+              <enum>QLayout::SetMinimumSize</enum>
+             </property>
+            </layout>
            </item>
           </layout>
          </widget>
@@ -292,7 +350,7 @@
          <widget class="QFrame" name="frameMonthWeeklyView">
           <property name="minimumSize">
            <size>
-            <width>300</width>
+            <width>150</width>
             <height>0</height>
            </size>
           </property>
@@ -309,8 +367,26 @@
            <enum>QFrame::Raised</enum>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_2">
+           <property name="spacing">
+            <number>0</number>
+           </property>
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
            <item>
             <widget class="QLabel" name="labelMonthWeeklyView">
+             <property name="layoutDirection">
+              <enum>Qt::LeftToRight</enum>
+             </property>
              <property name="text">
               <string>Weekly View</string>
              </property>
@@ -642,6 +718,68 @@
         </sizepolicy>
        </property>
        <layout class="QGridLayout" name="gridLayout_3">
+        <item row="4" column="0" colspan="4">
+         <widget class="QTableWidget" name="tableViewDaily">
+          <property name="minimumSize">
+           <size>
+            <width>1003</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true"/>
+          </property>
+          <property name="sizeAdjustPolicy">
+           <enum>QAbstractScrollArea::AdjustIgnored</enum>
+          </property>
+          <property name="editTriggers">
+           <set>QAbstractItemView::NoEditTriggers</set>
+          </property>
+          <property name="selectionMode">
+           <enum>QAbstractItemView::SingleSelection</enum>
+          </property>
+          <property name="selectionBehavior">
+           <enum>QAbstractItemView::SelectRows</enum>
+          </property>
+          <attribute name="horizontalHeaderCascadingSectionResizes">
+           <bool>true</bool>
+          </attribute>
+          <attribute name="horizontalHeaderMinimumSectionSize">
+           <number>20</number>
+          </attribute>
+          <attribute name="horizontalHeaderDefaultSectionSize">
+           <number>200</number>
+          </attribute>
+          <attribute name="horizontalHeaderStretchLastSection">
+           <bool>true</bool>
+          </attribute>
+          <column>
+           <property name="text">
+            <string>Event ID</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Title</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Tags</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>End Date</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Status</string>
+           </property>
+          </column>
+         </widget>
+        </item>
         <item row="0" column="1" colspan="2">
          <widget class="QLabel" name="labelViewDailyDate">
           <property name="styleSheet">
@@ -779,68 +917,6 @@ font-size: 25px
           </layout>
          </widget>
         </item>
-        <item row="4" column="0" colspan="4">
-         <widget class="QTableWidget" name="tableViewDaily">
-          <property name="minimumSize">
-           <size>
-            <width>1003</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="styleSheet">
-           <string notr="true"/>
-          </property>
-          <property name="sizeAdjustPolicy">
-           <enum>QAbstractScrollArea::AdjustIgnored</enum>
-          </property>
-          <property name="editTriggers">
-           <set>QAbstractItemView::NoEditTriggers</set>
-          </property>
-          <property name="selectionMode">
-           <enum>QAbstractItemView::SingleSelection</enum>
-          </property>
-          <property name="selectionBehavior">
-           <enum>QAbstractItemView::SelectRows</enum>
-          </property>
-          <attribute name="horizontalHeaderCascadingSectionResizes">
-           <bool>true</bool>
-          </attribute>
-          <attribute name="horizontalHeaderMinimumSectionSize">
-           <number>20</number>
-          </attribute>
-          <attribute name="horizontalHeaderDefaultSectionSize">
-           <number>200</number>
-          </attribute>
-          <attribute name="horizontalHeaderStretchLastSection">
-           <bool>true</bool>
-          </attribute>
-          <column>
-           <property name="text">
-            <string>Event ID</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Title</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Tags</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>End Date</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Status</string>
-           </property>
-          </column>
-         </widget>
-        </item>
         <item row="5" column="3">
          <widget class="QPushButton" name="buttonViewDailyBack">
           <property name="text">
@@ -852,144 +928,30 @@ font-size: 25px
       </widget>
       <widget class="QWidget" name="pageViewWeekly">
        <layout class="QGridLayout" name="gridLayout_2">
-        <item row="2" column="1">
-         <widget class="QTableWidget" name="tableviewMonday">
-          <property name="frameShape">
-           <enum>QFrame::StyledPanel</enum>
-          </property>
-          <property name="verticalScrollBarPolicy">
-           <enum>Qt::ScrollBarAlwaysOff</enum>
-          </property>
-          <property name="horizontalScrollBarPolicy">
-           <enum>Qt::ScrollBarAlwaysOff</enum>
-          </property>
-          <property name="sizeAdjustPolicy">
-           <enum>QAbstractScrollArea::AdjustToContents</enum>
-          </property>
-          <attribute name="horizontalHeaderVisible">
-           <bool>false</bool>
-          </attribute>
-          <attribute name="horizontalHeaderDefaultSectionSize">
-           <number>100</number>
-          </attribute>
-          <attribute name="horizontalHeaderStretchLastSection">
-           <bool>true</bool>
-          </attribute>
-          <attribute name="verticalHeaderVisible">
-           <bool>false</bool>
-          </attribute>
-          <column>
-           <property name="text">
-            <string>Title</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Status</string>
-           </property>
-           <property name="textAlignment">
-            <set>AlignJustify|AlignVCenter</set>
-           </property>
-          </column>
-         </widget>
-        </item>
-        <item row="2" column="6">
-         <widget class="QTableWidget" name="tableviewSaturday">
-          <property name="frameShape">
-           <enum>QFrame::StyledPanel</enum>
-          </property>
-          <property name="verticalScrollBarPolicy">
-           <enum>Qt::ScrollBarAlwaysOff</enum>
-          </property>
-          <property name="horizontalScrollBarPolicy">
-           <enum>Qt::ScrollBarAlwaysOff</enum>
-          </property>
-          <property name="sizeAdjustPolicy">
-           <enum>QAbstractScrollArea::AdjustToContents</enum>
-          </property>
-          <attribute name="horizontalHeaderVisible">
-           <bool>false</bool>
-          </attribute>
-          <attribute name="horizontalHeaderDefaultSectionSize">
-           <number>100</number>
-          </attribute>
-          <attribute name="horizontalHeaderStretchLastSection">
-           <bool>true</bool>
-          </attribute>
-          <attribute name="verticalHeaderVisible">
-           <bool>false</bool>
-          </attribute>
-          <column>
-           <property name="text">
-            <string>Title</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Status</string>
-           </property>
-           <property name="textAlignment">
-            <set>AlignJustify|AlignVCenter</set>
-           </property>
-          </column>
-         </widget>
-        </item>
-        <item row="1" column="2">
-         <widget class="QLabel" name="labelTuesday">
-          <property name="text">
-           <string>Tuesday #</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="2">
-         <widget class="QTableWidget" name="tableviewTuesday">
-          <property name="frameShape">
-           <enum>QFrame::StyledPanel</enum>
-          </property>
-          <property name="verticalScrollBarPolicy">
-           <enum>Qt::ScrollBarAlwaysOff</enum>
-          </property>
-          <property name="horizontalScrollBarPolicy">
-           <enum>Qt::ScrollBarAlwaysOff</enum>
-          </property>
-          <property name="sizeAdjustPolicy">
-           <enum>QAbstractScrollArea::AdjustToContents</enum>
-          </property>
-          <attribute name="horizontalHeaderVisible">
-           <bool>false</bool>
-          </attribute>
-          <attribute name="horizontalHeaderDefaultSectionSize">
-           <number>100</number>
-          </attribute>
-          <attribute name="horizontalHeaderStretchLastSection">
-           <bool>true</bool>
-          </attribute>
-          <attribute name="verticalHeaderVisible">
-           <bool>false</bool>
-          </attribute>
-          <column>
-           <property name="text">
-            <string>Title</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Status</string>
-           </property>
-           <property name="textAlignment">
-            <set>AlignJustify|AlignVCenter</set>
-           </property>
-          </column>
-         </widget>
-        </item>
-        <item row="1" column="5">
-         <widget class="QLabel" name="labelFriday">
-          <property name="text">
-           <string>Friday #</string>
-          </property>
-         </widget>
-        </item>
         <item row="2" column="3">
+         <widget class="QLabel" name="labelWednesday">
+          <property name="text">
+           <string>Wednesday #</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0" colspan="7">
+         <widget class="QLabel" name="labelMonth">
+          <property name="styleSheet">
+           <string notr="true">QLabel{font-size: 25px; border-style:none}</string>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="text">
+           <string>Month # ~ Month #</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="3">
          <widget class="QTableWidget" name="tableviewWednesday">
           <property name="frameShape">
            <enum>QFrame::StyledPanel</enum>
@@ -1030,21 +992,196 @@ font-size: 25px
           </column>
          </widget>
         </item>
-        <item row="1" column="3">
-         <widget class="QLabel" name="labelWednesday">
-          <property name="text">
-           <string>Wednesday #</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="6">
+        <item row="2" column="6">
          <widget class="QLabel" name="labelSaturday">
           <property name="text">
            <string>Saturday #</string>
           </property>
          </widget>
         </item>
-        <item row="2" column="5">
+        <item row="3" column="6">
+         <widget class="QTableWidget" name="tableviewSaturday">
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="verticalScrollBarPolicy">
+           <enum>Qt::ScrollBarAlwaysOff</enum>
+          </property>
+          <property name="horizontalScrollBarPolicy">
+           <enum>Qt::ScrollBarAlwaysOff</enum>
+          </property>
+          <property name="sizeAdjustPolicy">
+           <enum>QAbstractScrollArea::AdjustToContents</enum>
+          </property>
+          <attribute name="horizontalHeaderVisible">
+           <bool>false</bool>
+          </attribute>
+          <attribute name="horizontalHeaderDefaultSectionSize">
+           <number>100</number>
+          </attribute>
+          <attribute name="horizontalHeaderStretchLastSection">
+           <bool>true</bool>
+          </attribute>
+          <attribute name="verticalHeaderVisible">
+           <bool>false</bool>
+          </attribute>
+          <column>
+           <property name="text">
+            <string>Title</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Status</string>
+           </property>
+           <property name="textAlignment">
+            <set>AlignJustify|AlignVCenter</set>
+           </property>
+          </column>
+         </widget>
+        </item>
+        <item row="3" column="2">
+         <widget class="QTableWidget" name="tableviewTuesday">
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="verticalScrollBarPolicy">
+           <enum>Qt::ScrollBarAlwaysOff</enum>
+          </property>
+          <property name="horizontalScrollBarPolicy">
+           <enum>Qt::ScrollBarAlwaysOff</enum>
+          </property>
+          <property name="sizeAdjustPolicy">
+           <enum>QAbstractScrollArea::AdjustToContents</enum>
+          </property>
+          <attribute name="horizontalHeaderVisible">
+           <bool>false</bool>
+          </attribute>
+          <attribute name="horizontalHeaderDefaultSectionSize">
+           <number>100</number>
+          </attribute>
+          <attribute name="horizontalHeaderStretchLastSection">
+           <bool>true</bool>
+          </attribute>
+          <attribute name="verticalHeaderVisible">
+           <bool>false</bool>
+          </attribute>
+          <column>
+           <property name="text">
+            <string>Title</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Status</string>
+           </property>
+           <property name="textAlignment">
+            <set>AlignJustify|AlignVCenter</set>
+           </property>
+          </column>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QTableWidget" name="tableviewMonday">
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="verticalScrollBarPolicy">
+           <enum>Qt::ScrollBarAlwaysOff</enum>
+          </property>
+          <property name="horizontalScrollBarPolicy">
+           <enum>Qt::ScrollBarAlwaysOff</enum>
+          </property>
+          <property name="sizeAdjustPolicy">
+           <enum>QAbstractScrollArea::AdjustToContents</enum>
+          </property>
+          <attribute name="horizontalHeaderVisible">
+           <bool>false</bool>
+          </attribute>
+          <attribute name="horizontalHeaderDefaultSectionSize">
+           <number>100</number>
+          </attribute>
+          <attribute name="horizontalHeaderStretchLastSection">
+           <bool>true</bool>
+          </attribute>
+          <attribute name="verticalHeaderVisible">
+           <bool>false</bool>
+          </attribute>
+          <column>
+           <property name="text">
+            <string>Title</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Status</string>
+           </property>
+           <property name="textAlignment">
+            <set>AlignJustify|AlignVCenter</set>
+           </property>
+          </column>
+         </widget>
+        </item>
+        <item row="2" column="2">
+         <widget class="QLabel" name="labelTuesday">
+          <property name="text">
+           <string>Tuesday #</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QTableWidget" name="tableviewSunday">
+          <property name="verticalScrollBarPolicy">
+           <enum>Qt::ScrollBarAlwaysOff</enum>
+          </property>
+          <property name="horizontalScrollBarPolicy">
+           <enum>Qt::ScrollBarAlwaysOff</enum>
+          </property>
+          <property name="sizeAdjustPolicy">
+           <enum>QAbstractScrollArea::AdjustToContents</enum>
+          </property>
+          <attribute name="horizontalHeaderVisible">
+           <bool>false</bool>
+          </attribute>
+          <attribute name="horizontalHeaderDefaultSectionSize">
+           <number>100</number>
+          </attribute>
+          <attribute name="horizontalHeaderStretchLastSection">
+           <bool>true</bool>
+          </attribute>
+          <attribute name="verticalHeaderVisible">
+           <bool>false</bool>
+          </attribute>
+          <column>
+           <property name="text">
+            <string>Title</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Status</string>
+           </property>
+           <property name="textAlignment">
+            <set>AlignJustify|AlignVCenter</set>
+           </property>
+          </column>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QLabel" name="labelMonday">
+          <property name="text">
+           <string>Monday #</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="labelSunday">
+          <property name="text">
+           <string>Sunday #</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="5">
          <widget class="QTableWidget" name="tableviewFriday">
           <property name="frameShape">
            <enum>QFrame::StyledPanel</enum>
@@ -1085,35 +1222,21 @@ font-size: 25px
           </column>
          </widget>
         </item>
-        <item row="3" column="6">
-         <widget class="QPushButton" name="buttonViewWeeklyCancel">
-          <property name="text">
-           <string>Back</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="labelSunday">
-          <property name="text">
-           <string>Sunday #</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="QLabel" name="labelMonday">
-          <property name="text">
-           <string>Monday #</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="4">
+        <item row="2" column="4">
          <widget class="QLabel" name="labelThursday">
           <property name="text">
            <string>Thursday #</string>
           </property>
          </widget>
         </item>
-        <item row="2" column="4">
+        <item row="2" column="5">
+         <widget class="QLabel" name="labelFriday">
+          <property name="text">
+           <string>Friday #</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="4">
          <widget class="QTableWidget" name="tableviewThursday">
           <property name="frameShape">
            <enum>QFrame::StyledPanel</enum>
@@ -1154,57 +1277,10 @@ font-size: 25px
           </column>
          </widget>
         </item>
-        <item row="2" column="0">
-         <widget class="QTableWidget" name="tableviewSunday">
-          <property name="verticalScrollBarPolicy">
-           <enum>Qt::ScrollBarAlwaysOff</enum>
-          </property>
-          <property name="horizontalScrollBarPolicy">
-           <enum>Qt::ScrollBarAlwaysOff</enum>
-          </property>
-          <property name="sizeAdjustPolicy">
-           <enum>QAbstractScrollArea::AdjustToContents</enum>
-          </property>
-          <attribute name="horizontalHeaderVisible">
-           <bool>false</bool>
-          </attribute>
-          <attribute name="horizontalHeaderDefaultSectionSize">
-           <number>100</number>
-          </attribute>
-          <attribute name="horizontalHeaderStretchLastSection">
-           <bool>true</bool>
-          </attribute>
-          <attribute name="verticalHeaderVisible">
-           <bool>false</bool>
-          </attribute>
-          <column>
-           <property name="text">
-            <string>Title</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Status</string>
-           </property>
-           <property name="textAlignment">
-            <set>AlignJustify|AlignVCenter</set>
-           </property>
-          </column>
-         </widget>
-        </item>
-        <item row="0" column="0" colspan="7">
-         <widget class="QLabel" name="labelMonth">
-          <property name="styleSheet">
-           <string notr="true">QLabel{font-size: 25px; border-style:none}</string>
-          </property>
-          <property name="frameShape">
-           <enum>QFrame::StyledPanel</enum>
-          </property>
+        <item row="4" column="6">
+         <widget class="QPushButton" name="buttonViewWeeklyCancel">
           <property name="text">
-           <string>Month # ~ Month #</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
+           <string>Back</string>
           </property>
          </widget>
         </item>
@@ -1252,13 +1328,6 @@ font-size: 25px
             <widget class="QRadioButton" name="radioSearchStartDate">
              <property name="text">
               <string>Start Date</string>
-             </property>
-            </widget>
-           </item>
-           <item row="8" column="6">
-            <widget class="QPushButton" name="buttonSearchCancel">
-             <property name="text">
-              <string>Back</string>
              </property>
             </widget>
            </item>
@@ -1328,11 +1397,18 @@ font-size: 25px
           </layout>
          </widget>
         </item>
+        <item row="1" column="0">
+         <widget class="QPushButton" name="buttonSearchCancel">
+          <property name="text">
+           <string>Back</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </widget>
       <widget class="QWidget" name="pageViewSchedules">
        <layout class="QGridLayout" name="gridLayout_8">
-        <item row="1" column="2">
+        <item row="2" column="2">
          <widget class="QPushButton" name="scheduleDelete">
           <property name="maximumSize">
            <size>
@@ -1358,7 +1434,7 @@ font-size: 25px
           </property>
          </widget>
         </item>
-        <item row="2" column="0" colspan="3">
+        <item row="3" column="0" colspan="3">
          <widget class="QTableWidget" name="tableWidget">
           <property name="selectionMode">
            <enum>QAbstractItemView::SingleSelection</enum>
@@ -1397,7 +1473,7 @@ font-size: 25px
           </column>
          </widget>
         </item>
-        <item row="1" column="0">
+        <item row="2" column="0">
          <widget class="QFrame" name="frame">
           <property name="frameShape">
            <enum>QFrame::StyledPanel</enum>
@@ -1411,13 +1487,13 @@ font-size: 25px
              <x>0</x>
              <y>0</y>
              <width>111</width>
-             <height>38</height>
+             <height>20</height>
             </rect>
            </property>
            <property name="maximumSize">
             <size>
              <width>16777215</width>
-             <height>16777215</height>
+             <height>30</height>
             </size>
            </property>
            <property name="text">
@@ -1430,8 +1506,14 @@ font-size: 25px
              <x>120</x>
              <y>0</y>
              <width>111</width>
-             <height>38</height>
+             <height>20</height>
             </rect>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>30</height>
+            </size>
            </property>
            <property name="text">
             <string>Edit</string>
@@ -1439,7 +1521,7 @@ font-size: 25px
           </widget>
          </widget>
         </item>
-        <item row="3" column="2">
+        <item row="4" column="0">
          <widget class="QPushButton" name="buttonScheduleViewCancel">
           <property name="text">
            <string>Back</string>
@@ -1767,54 +1849,6 @@ font-size: 25px
         </layout>
        </widget>
       </widget>
-      <widget class="QWidget" name="page">
-       <widget class="QCalendarWidget" name="calendarWidget">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
-        <property name="geometry">
-         <rect>
-          <x>0</x>
-          <y>10</y>
-          <width>817</width>
-          <height>812</height>
-         </rect>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>391</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="font">
-         <font>
-          <family>-apple-system</family>
-          <pointsize>8</pointsize>
-          <weight>75</weight>
-          <bold>true</bold>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QCalendarWidget QAbstractItemView
-{ 
-selection-background-color: #042944; 
-selection-color: white;
-font-size: 16px;
-
-}
-QCalendarWidget QTableView{
-background-color:lightblue;
-}
-</string>
-        </property>
-        <property name="gridVisible">
-         <bool>true</bool>
-        </property>
-        <property name="verticalHeaderFormat">
-         <enum>QCalendarWidget::NoVerticalHeader</enum>
-        </property>
-       </widget>
-      </widget>
      </widget>
     </item>
    </layout>
@@ -1824,7 +1858,7 @@ background-color:lightblue;
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1410</width>
+     <width>1419</width>
      <height>21</height>
     </rect>
    </property>
