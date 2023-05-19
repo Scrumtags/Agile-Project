@@ -60,7 +60,7 @@ def test_update_event(db_controller):
     result = db_controller.conn.execute(query, params).fetchone()
 
     assert result is not None
-    assert result[1] == updated_data['title']
+    assert result[1] == updated_data['joe']
     assert result[2] == updated_data['description']
     assert result[3] == updated_data['start_date']
     assert result[4] == updated_data['end_date']
