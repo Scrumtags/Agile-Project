@@ -59,7 +59,11 @@ class DayWidget(QWidget):
         self.setAutoFillBackground(True)
 
         # Set the background color to white if current_date.month == data['date'].month
-        if self.current_date.month == self.data['date'].month:
+        if self.current_date.day == self.data['date'].day:
+            palette = self.palette()
+            palette.setColor(QPalette.Background, QColor(179, 245, 196))
+            self.setPalette(palette)
+        elif self.current_date.month == self.data['date'].month:
             palette = self.palette()
             palette.setColor(QPalette.Background, Qt.white)
             self.setPalette(palette)
@@ -138,11 +142,6 @@ class CustomCalendarWidget(QWidget):
         
         self.current_date = datetime.datetime.now()    
         self.db_connection = Database_Controller()
-    
-        # self.setAutoFillBackground(True)
-        # palette = self.palette()
-        # palette.setColor(QPalette.Background, QColor(200, 200, 200))
-        # self.setPalette(palette)
         
         frame = QFrame()
         self.main_layout = QVBoxLayout(frame)
@@ -232,4 +231,4 @@ class CustomCalendarWidget(QWidget):
         return self.current_date.weekday()
 
     def calculate_start(self):
-        return self.first - timedelta(days=self.day_of_week)
+        return self.first - timedelta(days=self.first.weekday() + 1)
