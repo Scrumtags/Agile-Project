@@ -54,25 +54,34 @@ class DayWidget(QWidget):
         self.layout_main.setSpacing(0)
         self.layout_listing.setSpacing(0)
         self.layout_main.setContentsMargins(4, 4, 4, 4)
-        self.layout_listing.setAlignment(Qt.AlignTop)  
+        self.layout_listing.setAlignment(Qt.AlignTop) 
         # layout_header.setContentsMargins(10, 0, 10, 0)
         self.setAutoFillBackground(True)
 
+        today = datetime.datetime.today().strftime('%Y-%m-%d')
         # Set the background color to white if current_date.month == data['date'].month
-        if self.current_date.month == self.data['date'].month:
+        if today == self.data['date'].strftime('%Y-%m-%d'):
+            # set color green if today date == date for events
+            palette = self.palette()
+            palette.setColor(QPalette.Background, QColor(179, 245, 196))
+            self.setPalette(palette)
+        elif self.current_date.month == self.data['date'].month:
+            # set white if day is in month
             palette = self.palette()
             palette.setColor(QPalette.Background, Qt.white)
             self.setPalette(palette)
         else:
+            # set gray if data date not in date
             palette = self.palette()
             palette.setColor(QPalette.Background, QColor(224, 224, 224))
             self.setPalette(palette)
 
-        # Day label
+        # if data[date] equals 1 then add month-day else just day
         if self.data['date'].day == 1:
             self.labelDay = QLabel(data['date'].strftime("%B %d"))
         else:
             self.labelDay = QLabel(data['date'].strftime("%d"))
+        # add widget to layout
         self.layout_header.addWidget(self.labelDay)
         
         # Event / Schedule creation (limit of 5 listings per date)
@@ -88,7 +97,7 @@ class DayWidget(QWidget):
         self.categoryLabel.setAlignment(Qt.AlignRight)
         self.layout_header.addWidget(self.categoryLabel)
 
-
+    # creates 5 listings for that day
     def populate_listings(self):
         i = 0
         for item in self.data['data']:
@@ -102,13 +111,6 @@ class DayWidget(QWidget):
                 self.layout_listing.addWidget(listing)
                 listing.clicked.connect(lambda checked, event_id=self.event_id: self.button_clicked.emit(event_id))
                 i += 1
-            
-            
-    # def get_count(self):
-    #     count = 0
-    #     for event in self.data['data']:
-    #         count += 1
-    #     return count
 
     def background_clicked_event(self):
         """
@@ -135,15 +137,11 @@ class CustomCalendarWidget(QWidget):
 
     def __init__(self, parent=None):
         super().__init__()
-        
-        self.current_date = datetime.datetime.now()    
+
+        self.current_date = datetime.datetime.now()
         self.db_connection = Database_Controller()
-    
-        # self.setAutoFillBackground(True)
-        # palette = self.palette()
-        # palette.setColor(QPalette.Background, QColor(200, 200, 200))
-        # self.setPalette(palette)
-        
+
+        # define widget structure
         frame = QFrame()
         self.main_layout = QVBoxLayout(frame)
         self.setLayout(self.main_layout)
@@ -157,7 +155,6 @@ class CustomCalendarWidget(QWidget):
         self.buttonNextMonth = QPushButton("Next")
         self.buttonPreviousMonth = QPushButton("Prev")
         self.labelMonth = QLabel(self.current_date.strftime("%B %Y"))
-
         self.buttonNextMonth.clicked.connect(self.next_month)
         self.buttonPreviousMonth.clicked.connect(self.previous_month)
         self.layoutUpper.addWidget(self.buttonPreviousMonth)
@@ -165,6 +162,7 @@ class CustomCalendarWidget(QWidget):
         self.layoutUpper.addWidget(self.buttonNextMonth)
 
         self.main_layout.addLayout(self.layoutUpper)
+        # set the days of the week labels
         days = ["Sunday", "Monday", "Tuesday",
                 "Wednesday", "Thursday", "Friday", "Saturday"]
         for day in days:
@@ -180,21 +178,30 @@ class CustomCalendarWidget(QWidget):
         self.set_defaults()
 
     def set_defaults(self):
+        # delete all daywidgets
         self.clear_days()
+        # set month label
         self.get_month()
+        # calculate first day of month
         self.first = self.calculate_first()
+        # calculate day of week
         self.day_of_week = self.calculate_day()
+        # calculate start date for the calendar
         self.start_date = self.calculate_start()
+        # populate daywidgets
         self.populate_days()
 
+    # button to add 1 month
     def next_month(self):
         self.current_date = self.current_date + timedelta(days=30)
         self.set_defaults()
 
+    # function to go back 1 month
     def previous_month(self):
         self.current_date = self.current_date - timedelta(days=30)
         self.set_defaults()
 
+    # creates all the daywidgets for calendar
     def populate_days(self):
         date = self.start_date
         for row in range(5):
@@ -211,16 +218,21 @@ class CustomCalendarWidget(QWidget):
                 dayWidget.button_clicked.connect(self.button_emit)
                 dayWidget.background_clicked.connect(self.background_emit)
 
+    # signal to connect background to view_daily in studybuddy
     def background_emit(self, date):
         self.background_clicked.emit(date)
 
+    # signal to connect background to edit_note in studybuddy
     def button_emit(self, listing):
         self.button_clicked.emit(listing)
-    
+
+    # destroy all days in calendar to repopulate
     def clear_days(self):
         for i in range(self.days_layout.count()):
             item = self.days_layout.itemAt(i)
             item.widget().close()
+
+    # functions just for caclulations to store as properties
 
     def get_month(self):
         self.labelMonth.setText(self.current_date.strftime("%B %Y"))
@@ -232,4 +244,4 @@ class CustomCalendarWidget(QWidget):
         return self.current_date.weekday()
 
     def calculate_start(self):
-        return self.first - timedelta(days=self.day_of_week)
+        return self.first - timedelta(days=self.first.weekday() + 1)
