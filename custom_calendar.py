@@ -38,7 +38,7 @@ class DayWidget(QWidget):
         self.current_date = self.data['current_date']
         self.event_id = int
         self.count = 0
-        
+
         # Set Widget Layout
         frame = QFrame()
         self.layout_main = QVBoxLayout(frame)
@@ -52,9 +52,10 @@ class DayWidget(QWidget):
         self.layout_header.setAlignment(Qt.AlignTop)
         self.layout_main.setAlignment(Qt.AlignTop)
         self.layout_main.setSpacing(0)
-        self.layout_listing.setSpacing(0)
+        self.layout_listing.setSpacing(1)
         self.layout_main.setContentsMargins(4, 4, 4, 4)
-        self.layout_listing.setAlignment(Qt.AlignTop) 
+        self.layout_listing.setAlignment(Qt.AlignTop)
+
         # layout_header.setContentsMargins(10, 0, 10, 0)
         self.setAutoFillBackground(True)
 
@@ -103,10 +104,26 @@ class DayWidget(QWidget):
         for item in self.data['data']:
             if i < 5:
                 self.event_id = item[0]
-                listing = QPushButton(item[1])
-                listing.setFont(QFont('Arial', 8))
+                listing = QPushButton()
+                listing_layout = QVBoxLayout(listing)
+                listing_layout.setContentsMargins(0, 0, 0, 0)
+                listing.setLayout(listing_layout)
+                listing_title = QLabel(item[1])
+                listing_layout.addWidget(listing_title)
+                listing_title.setStyleSheet("font-size: 12px;")
+                listing_title.adjustSize()
+                listing_title.setAlignment(Qt.AlignCenter)
                 if item[5] == 0:
-                    listing.setStyleSheet(" background-color: #fcbfbb; ")
+                    listing.setStyleSheet("""
+                        QPushButton {
+                            background-color: #fcbfbb;
+                            border: 1px solid #7aa7c7;
+                            color: #39739d;
+                            font-size: 15px;
+                            font-weight: 400;
+                            outline: none;
+                        }
+                    """)
                     self.count += 1
                 self.layout_listing.addWidget(listing)
                 listing.clicked.connect(lambda checked, event_id=self.event_id: self.button_clicked.emit(event_id))
@@ -145,8 +162,7 @@ class CustomCalendarWidget(QWidget):
         frame = QFrame()
         self.main_layout = QVBoxLayout(frame)
         self.setLayout(self.main_layout)
-        self.main_layout.setContentsMargins(2, 2, 2, 2)
-        self.setLayout(self.main_layout)
+        self.main_layout.setContentsMargins(0, 0, 0, 0)
         self.layoutUpper = QHBoxLayout()
         self.main_layout.setStretchFactor(self.layoutUpper, 20)
         self.layoutMiddle = QHBoxLayout()
