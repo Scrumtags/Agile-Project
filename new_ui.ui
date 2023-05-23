@@ -15,6 +15,9 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
+    <property name="horizontalSpacing">
+     <number>0</number>
+    </property>
     <item row="0" column="0" rowspan="2">
      <widget class="QWidget" name="text_nav" native="true">
       <layout class="QVBoxLayout" name="verticalLayout_6">
