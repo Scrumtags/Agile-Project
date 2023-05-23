@@ -273,48 +273,61 @@ class Main(QMainWindow):
         else:
             self.event_id = data
             
-        # tags_ids = self.connectDB.get_event_tags(self.event_id)
-        # tags = self.connectDB.get_tags(tags_ids)
 
-        # column_count = 1
-        # column_number = 0
-        # for tag in tags:
-        #     self.tableModifyEventTags.setColumnCount(column_count)
-        #     self.tableModifyEventTags.setItem(
-        #         0, column_number, QTableWidgetItem(tag))
-        #     column_number += 1
-        #     column_count += 1
 
-        # for column in range(self.tableModifyEventTags.columnCount()):
-        #     item = self.tableModifyEventTags.item(0, column)
 
-        #     if item is not None:
-        #         current_tags.append(item)
-        # for item in self.database_tags:
-        #     check_same_tag = False
-        #     for tags in current_tags:
-        #         if item[1] == tags.text():
-        #             check_same_tag = True
-        #     if check_same_tag is False:
-        #         self.comboModifyEventTagsAdd.addItem(item[1])
-        # cur = self.connectDB.conn.cursor()
-        # sql = """SELECT * FROM events WHERE event_id = ?"""
-        # values = (self.event_id, )
 
-        # for item in cur.execute(sql, values):
-        #     syear, smonth, sday = item[3].split('-')
-        #     eyear, emonth, eday = item[4].split('-')
-        #     sdateSelected = QDate(int(syear), int(smonth), int(sday))
-        #     edateSelected = QDate(int(eyear), int(emonth), int(eday))
-        #     self.dataModifyEventTitle.setText(item[1])
-        #     self.dataModifyEventDescription.setText(item[2])
-        #     self.dataModifyEventStatus.setValue(item[5])
 
-        #     self.dataModifyEventEndDate.setMinimumDate(edateSelected)
-        #     self.dataModifyEventStartDate.setDate(sdateSelected)
-        #     self.dataModifyEventEndDate.setDate(edateSelected)
-        #     self.labelModifyEventDate.setText(edateSelected.toString("MMM dd"))
-        #     self.selected_date = edateSelected
+
+        tags_ids = self.connectDB.get_event_tags(self.event_id)
+        tags = self.connectDB.get_tags(tags_ids)
+
+        column_count = 1
+        column_number = 0
+        for tag in tags:
+            self.tableModifyEventTags.setColumnCount(column_count)
+            self.tableModifyEventTags.setItem(
+                0, column_number, QTableWidgetItem(tag))
+            column_number += 1
+            column_count += 1
+
+        for column in range(self.tableModifyEventTags.columnCount()):
+            item = self.tableModifyEventTags.item(0, column)
+
+            if item is not None:
+                current_tags.append(item)
+        for item in self.database_tags:
+            check_same_tag = False
+            for tags in current_tags:
+                if item[1] == tags.text():
+                    check_same_tag = True
+            if check_same_tag is False:
+                self.comboModifyEventTagsAdd.addItem(item[1])
+        cur = self.connectDB.conn.cursor()
+        sql = """SELECT * FROM events WHERE event_id = ?"""
+        values = (self.event_id, )
+
+        for item in cur.execute(sql, values):
+            syear, smonth, sday = item[3].split('-')
+            eyear, emonth, eday = item[4].split('-')
+            sdateSelected = QDate(int(syear), int(smonth), int(sday))
+            edateSelected = QDate(int(eyear), int(emonth), int(eday))
+            self.dataModifyEventTitle.setText(item[1])
+            self.dataModifyEventDescription.setText(item[2])
+            self.dataModifyEventStatus.setValue(item[5])
+
+            self.dataModifyEventEndDate.setMinimumDate(edateSelected)
+            self.dataModifyEventStartDate.setDate(sdateSelected)
+            self.dataModifyEventEndDate.setDate(edateSelected)
+            self.labelModifyEventDate.setText(edateSelected.toString("MMM dd"))
+            self.selected_date = edateSelected
+
+
+
+
+
+
+
 
     def delete_event(self):
         if len(self.tableViewDaily.selectedItems()) > 0:

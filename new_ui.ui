@@ -340,7 +340,7 @@
                <item>
                 <widget class="QStackedWidget" name="stackedWidgetViews">
                  <property name="currentIndex">
-                  <number>1</number>
+                  <number>3</number>
                  </property>
                  <widget class="QWidget" name="page0">
                   <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -1010,7 +1010,11 @@
                            </widget>
                           </item>
                           <item>
-                           <widget class="QComboBox" name="comboModifyEventTagsAdd"/>
+                           <widget class="QComboBox" name="comboModifyEventTagsAdd">
+                            <property name="editable">
+                             <bool>true</bool>
+                            </property>
+                           </widget>
                           </item>
                           <item>
                            <widget class="QPushButton" name="buttonModifyEventAddTag">
@@ -1034,6 +1038,9 @@
                               <height>20</height>
                              </size>
                             </property>
+                            <attribute name="horizontalHeaderVisible">
+                             <bool>false</bool>
+                            </attribute>
                             <attribute name="verticalHeaderVisible">
                              <bool>false</bool>
                             </attribute>
