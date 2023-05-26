@@ -56,6 +56,7 @@ class Main(QMainWindow):
         loadUi("new_ui.ui", self)
         # Load Resources
         self.connectDB = Database_Controller()
+        self.validate_tags_list()
         self.database_tags = self.connectDB.get_all_tags()
 
         """
@@ -136,8 +137,30 @@ class Main(QMainWindow):
         self.buttonNavigationCalendarMonth.setDisabled(True)
         self.popularize_weekly_list()
         self.tableViewDaily.setColumnHidden(0, True)
+        
 
     # Navigation Buttons
+
+
+    def validate_tags_list(self):
+        #check the tag list on whether they associate with an event
+        all_event_tags = self.connectDB.get_all_event_tags()
+        all_tags = self.connectDB.get_all_tags()
+
+        for tag in all_tags:
+            event_tag_found = False
+
+            for event_tag in all_event_tags:
+                print(event_tag[1],"and",tag[0])
+                if event_tag[1] == tag[0]:
+                    event_tag_found = True
+                    break
+            print(event_tag_found)
+            if event_tag_found is False:
+                #delete the tag
+                self.connectDB.del_tag(tag[0])
+               
+        
 
     def popularize_weekly_list(self):
 
@@ -261,27 +284,19 @@ class Main(QMainWindow):
         self.stackedWidgetViews.setCurrentIndex(3)
         self.set_event_defaults()
 
-        print(len(self.tableViewDaily.selectedItems()))
-        if data is None:
-            selected_row = self.tableViewDaily.selectedItems()
-            if len(selected_row) < 1:
-                return
+        selected_row = self.tableViewDaily.selectedItems()
+        if len(selected_row) == 1:
             table = self.tableViewDaily
             row_number = self.tableViewDaily.row(selected_row[0])
             self.event_id = int(table.item(row_number, 0).text())
-            print(self.event_id)
-        else:
+            print("event_id",self.event_id)
+        elif data is not None:
             self.event_id = data
-            
-
-
-
-
-
+        else:
+            return
 
         tags_ids = self.connectDB.get_event_tags(self.event_id)
         tags = self.connectDB.get_tags(tags_ids)
-
         column_count = 1
         column_number = 0
         for tag in tags:
@@ -293,9 +308,9 @@ class Main(QMainWindow):
 
         for column in range(self.tableModifyEventTags.columnCount()):
             item = self.tableModifyEventTags.item(0, column)
-
             if item is not None:
                 current_tags.append(item)
+            
         for item in self.database_tags:
             check_same_tag = False
             for tags in current_tags:
@@ -303,6 +318,8 @@ class Main(QMainWindow):
                     check_same_tag = True
             if check_same_tag is False:
                 self.comboModifyEventTagsAdd.addItem(item[1])
+
+       
         cur = self.connectDB.conn.cursor()
         sql = """SELECT * FROM events WHERE event_id = ?"""
         values = (self.event_id, )
@@ -362,8 +379,8 @@ class Main(QMainWindow):
         if tag == "":
             return
         for tags in current_tags:
-            if tag == tags:
-                break
+            if tag == tags.text():
+                return
 
         item = QTableWidgetItem(tag)
         self.comboModifyEventTagsAdd.removeItem(
@@ -388,7 +405,7 @@ class Main(QMainWindow):
                     return
             self.tableModifyEventTags.removeColumn(selected_item.column())
             self.comboModifyEventTagsAdd.addItem(tag)
-
+    
     # SCHEDULE
     def create_schedule(self):
         self.edit_flag = 0
@@ -533,10 +550,48 @@ class Main(QMainWindow):
 
     def get_event_data(self):
         current_tags = []
+        create_new_tags = []
         for column in range(self.tableModifyEventTags.columnCount()):
             item = self.tableModifyEventTags.item(0, column)
             if item is not None:
                 current_tags.append(item.text())
+        for tag in current_tags:
+            checkTag = False
+            for tag_database in self.database_tags:
+                
+                if tag == tag_database[1]:
+                    checkTag = True
+                    break
+            if checkTag is False:
+                #create a new tag
+                create_new_tags.append(tag)
+
+        new_tag_list = list(set(current_tags)-set(create_new_tags))
+        
+        
+        print("create new tags",create_new_tags)
+
+
+        #delete all event_tags for current event_id
+        self.connectDB.del_event_tags(self.event_id)
+
+
+        #create tags that doesn't exist in the database
+        for tag in create_new_tags:
+            self.connectDB.create_tags(tag)
+            for id in self.connectDB.get_tag_id(tag):
+                new_tag_id = id[0]
+                print("new tag id:",new_tag_id)
+            self.connectDB.create_event_tags(self.event_id,new_tag_id)
+        
+        #create event_tags that doesn't exist in the database
+        for tag in new_tag_list:
+            for id in self.connectDB.get_tag_id(tag):
+                new_tag_id = id[0]
+            self.connectDB.create_event_tags(self.event_id,new_tag_id)
+        self.validate_tags_list()
+       
+
         if self.edit_flag == 0:
             data = {
                 "title": self.dataModifyEventTitle.text(),

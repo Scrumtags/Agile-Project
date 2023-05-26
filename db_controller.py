@@ -186,18 +186,60 @@ class Database_Controller():
         query = f'SELECT * FROM tags WHERE tag_id = ?'
         c = self.conn
         for tag_id in data:
-            params = (tag_id, )
+            
+            params = (tag_id[1], )
             data = c.execute(query, params)
             tag_names.append(data.fetchone()[1])
         return tag_names
+    def get_tag_id(self,tag_name):
+        query = """select tag_id from tags where tag_name = ?"""
+        param = (tag_name,)
+        c = self.conn.cursor()
 
+        data = c.execute(query,param)
+        return data
     def get_all_tags(self):
         query = """ SELECT * FROM tags"""
         c = self.conn.cursor()
         cursor = c.execute(query)
         data = cursor.fetchall()
         return data
+    
+    def get_all_event_tags(self):
+        query = """ SELECT * FROM event_tags"""
+        c = self.conn.cursor()
+        cursor = c.execute(query)
+        data = cursor.fetchall()
+        return data
 
+    def del_event_tags(self,event_id):
+        query = """DELETE FROM event_tags where event_id = ?"""
+        param = (event_id,)
+        
+        c=self.conn.cursor()
+        c.execute(query,param)
+
+    def del_tag(self,tag_id):
+        query = """DELETE FROM tags where tag_id = ?"""
+        param = (int(tag_id),)
+        
+        c=self.conn.cursor()
+        c.execute(query,param)
+        print("tag has been deleted from database")
+    def create_tags(self,tag_name):
+        query = """insert into tags(tag_name) values(?)"""
+        param = (tag_name,)
+        c =self.conn.cursor()
+        c.execute(query,param)
+
+    def create_event_tags(self,event_id,tag_id):
+        query = """insert into event_tags values(?,?)"""
+        param = (event_id,tag_id)
+        c= self.conn.cursor()
+        c.execute(query,param)
+
+    
+        
     def search_data(self, check, searchText):
 
         if check == "*":
