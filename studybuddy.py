@@ -786,13 +786,15 @@ class Main(QMainWindow):
                 self.tableViewDaily.setItem(
                     tablerow, 1, QTableWidgetItem(row[1]))
                 self.tableViewDaily.setItem(
-                    tablerow, 2, QTableWidgetItem(tag_str))
+                    tablerow, 2, QTableWidgetItem(row[2]))
+                self.tableViewDaily.setItem(
+                    tablerow, 3, QTableWidgetItem(tag_str))
                 # start date
                 self.tableViewDaily.setItem(
-                    tablerow, 3, QTableWidgetItem(row[4]))
+                    tablerow, 4, QTableWidgetItem(row[4]))
                 # completion
                 self.tableViewDaily.setItem(
-                    tablerow, 4, QTableWidgetItem(self.format_completion_status(row[5])))
+                    tablerow, 5, QTableWidgetItem(self.format_completion_status(row[5])))
                 tablerow += 1
                 row_count += 1
 

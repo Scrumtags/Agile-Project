@@ -303,7 +303,7 @@
                <item>
                 <widget class="QStackedWidget" name="stackedWidgetViews">
                  <property name="currentIndex">
-                  <number>2</number>
+                  <number>1</number>
                  </property>
                  <widget class="QWidget" name="page0">
                   <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -505,6 +505,11 @@
                           <column>
                            <property name="text">
                             <string>Title</string>
+                           </property>
+                          </column>
+                          <column>
+                           <property name="text">
+                            <string>Description</string>
                            </property>
                           </column>
                           <column>
