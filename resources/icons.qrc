@@ -1,0 +1,25 @@
+<RCC>
+  <qresource prefix="icons">
+    <file>icons/arrow-left.svg</file>
+    <file>icons/arrow-right.svg</file>
+    <file>icons/bars.svg</file>
+    <file>icons/address-book.svg</file>
+    <file>icons/calendar.svg</file>
+    <file>icons/calendar-check.svg</file>
+    <file>icons/calendar-day.svg</file>
+    <file>icons/calendar-days.svg</file>
+    <file>icons/calendar-minus.svg</file>
+    <file>icons/calendar-plus.svg</file>
+    <file>icons/calendar-week.svg</file>
+    <file>icons/calendar-xmark.svg</file>
+    <file>icons/gear.svg</file>
+    <file>icons/magnifying-glass.svg</file>
+    <file>icons/magnifying-glass-arrow-right.svg</file>
+    <file>icons/magnifying-glass-chart.svg</file>
+    <file>icons/magnifying-glass-dollar.svg</file>
+    <file>icons/magnifying-glass-location.svg</file>
+    <file>icons/magnifying-glass-minus.svg</file>
+    <file>icons/magnifying-glass-plus.svg</file>
+    <file>icons/square-xmark.svg</file>
+  </qresource>
+</RCC>
