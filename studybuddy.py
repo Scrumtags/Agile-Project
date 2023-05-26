@@ -73,6 +73,8 @@ class Main(QMainWindow):
         self.calendar_widget = CustomCalendarWidget()
         self.calendar_widget.button_clicked.connect(self.edit_event)
         self.calendar_widget.background_clicked.connect(self.view_day)
+        self.calendar_widget.next_month_clicked.connect(self.next_month)
+        self.calendar_widget.previous_month_clicked.connect(self.previous_month)
         self.layoutMonthlyCalendar.addWidget(self.calendar_widget)
 
         # Navigation Menu
@@ -515,13 +517,21 @@ class Main(QMainWindow):
         self.selected_date = QDate(next_week.year, next_week.month, next_week.day)
         self.view_week()
 
-
     def previous_week(self):
         prev_week = self.convert_qdate(self.selected_date) - timedelta(days=7)
         self.selected_date = QDate(prev_week.year, prev_week.month, prev_week.day)
         self.view_week()
 
+    def next_month(self):
+        next_month = self.convert_qdate(self.selected_date) + timedelta(days=30)
+        self.selected_date = QDate(next_month.year, next_month.month, next_month.day)
+        self.view_month()
 
+    # function to go back 1 month
+    def previous_month(self):
+        prev_month = self.convert_qdate(self.selected_date) - timedelta(days=30)
+        self.selected_date = QDate(prev_month.year, prev_month.month, prev_month.day)
+        self.view_month()
 
     def toggle_date_selector(self):
         self.date_pick.setHidden(not self.date_pick.isHidden())

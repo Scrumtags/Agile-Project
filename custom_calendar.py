@@ -151,6 +151,8 @@ class DayWidget(QWidget):
 class CustomCalendarWidget(QWidget):
     button_clicked = pyqtSignal(object)
     background_clicked = pyqtSignal(object)
+    previous_month_clicked = pyqtSignal(object)
+    next_month_clicked = pyqtSignal(object)
 
     def __init__(self, parent=None):
         super().__init__()
@@ -209,12 +211,12 @@ class CustomCalendarWidget(QWidget):
 
     # button to add 1 month
     def next_month(self):
-        self.current_date = self.current_date + timedelta(days=30)
+        self.next_month_clicked.emit(self.current_date)
         self.set_defaults()
 
     # function to go back 1 month
     def previous_month(self):
-        self.current_date = self.current_date - timedelta(days=30)
+        self.previous_month_clicked.emit(self.current_date)
         self.set_defaults()
 
     # creates all the daywidgets for calendar
