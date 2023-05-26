@@ -303,7 +303,7 @@
                <item>
                 <widget class="QStackedWidget" name="stackedWidgetViews">
                  <property name="currentIndex">
-                  <number>1</number>
+                  <number>4</number>
                  </property>
                  <widget class="QWidget" name="page0">
                   <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -1354,16 +1354,16 @@
                            </widget>
                           </item>
                           <item>
-                           <widget class="QRadioButton" name="radioSearchDescription">
+                           <widget class="QRadioButton" name="radioSearchTitle">
                             <property name="text">
-                             <string>Description</string>
+                             <string>Title</string>
                             </property>
                            </widget>
                           </item>
                           <item>
-                           <widget class="QRadioButton" name="radioSearchTags">
+                           <widget class="QRadioButton" name="radioSearchDescription">
                             <property name="text">
-                             <string>Tags</string>
+                             <string>Description</string>
                             </property>
                            </widget>
                           </item>
@@ -1385,13 +1385,6 @@
                            <widget class="QRadioButton" name="radioSearchStatus">
                             <property name="text">
                              <string>Status</string>
-                            </property>
-                           </widget>
-                          </item>
-                          <item>
-                           <widget class="QRadioButton" name="radioSearchTitle">
-                            <property name="text">
-                             <string>Title</string>
                             </property>
                            </widget>
                           </item>
