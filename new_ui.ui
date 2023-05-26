@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>805</width>
-    <height>582</height>
+    <width>1123</width>
+    <height>638</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -340,7 +340,7 @@
                <item>
                 <widget class="QStackedWidget" name="stackedWidgetViews">
                  <property name="currentIndex">
-                  <number>3</number>
+                  <number>0</number>
                  </property>
                  <widget class="QWidget" name="page0">
                   <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -361,6 +361,12 @@
                    </property>
                    <item>
                     <widget class="QWidget" name="widget_3" native="true">
+                     <property name="minimumSize">
+                      <size>
+                       <width>990</width>
+                       <height>0</height>
+                      </size>
+                     </property>
                      <layout class="QVBoxLayout" name="verticalLayout_37">
                       <property name="spacing">
                        <number>0</number>
