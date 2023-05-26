@@ -123,6 +123,9 @@ class Main(QMainWindow):
         # Settings
         self.buttonSettingsHolidayImport.clicked.connect(self.get_holidays)
 
+        # Exit
+        self.buttonExit.clicked.connect(self.close)
+
         # Defaults
         self.__set_defaults()
 
