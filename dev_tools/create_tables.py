@@ -1,9 +1,11 @@
-import sqlite3
+import sqlite3, json, os, sys, 
 from sqlite3 import Error
-import json, os, sys
 
-if os.path.exists("./sqliteDB/database.db"):
-    os.remove("./sqliteDB/database.db")
+if os.path.exists("../sqliteDB"):
+    if os.path.exists("../sqliteDB/database.db"):
+        os.remove("../sqliteDB/database.db")
+else:
+    os.mkdir("../sqliteDB")
 
 with open('./data.json', "r") as file:
     data = json.load(file)
@@ -11,7 +13,7 @@ with open('./data.json', "r") as file:
 connection = None
 
 try:
-    connection = sqlite3.connect("./sqliteDB/database.db")
+    connection = sqlite3.connect("../sqliteDB/database.db")
 except Error as err:
     print(err)
 

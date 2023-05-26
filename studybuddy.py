@@ -1,6 +1,4 @@
-import sys
-import time
-import datetime
+import sys, time, datetime, resources
 from time import mktime
 from PyQt5.QtWidgets import *
 from datetime import datetime, timedelta
@@ -12,12 +10,11 @@ from PyQt5.uic import loadUi
 from sqlite3 import Error
 from db_controller import Database_Controller
 from custom_calendar import *
-import resources
 
 """""
 SQLite database
 
-# events 
+# events
 1 - event_id                INTEGER
 2 - title                   TEXT
 3 - description             TEXT
@@ -80,25 +77,25 @@ class Main(QMainWindow):
 
         # Navigation Menu
 
-        ## Calendar
+        # Calendar
         self.buttonNavigationCalendar.clicked.connect(self.view_calendar)
-        ### Calendar Sub-buttons
+        # Calendar Sub-buttons
         self.buttonNavigationCalendarDay.clicked.connect(self.view_day)
         self.buttonNavigationCalendarMonth.clicked.connect(self.view_month)
         self.buttonNavigationCalendarWeek.clicked.connect(self.view_week)
-        ## Search
+        # Search
         self.buttonNavigationSearch.clicked.connect(self.view_search)
-        ## Schedule
+        # Schedule
         self.buttonNavigationScheduleView.clicked.connect(self.view_schedule)
         # Settings
         self.buttonNavigationSettings.clicked.connect(self.view_settings)
 
-        ### Schedule View Buttons
+        # Schedule View Buttons
         self.buttonScheduleViewAdd.clicked.connect(self.create_schedule)
         self.buttonScheduleSubmit.clicked.connect(self.schedule_manager)
         self.scheduleDelete.clicked.connect(self.delete_schedule)
         self.scheduleUpdate.clicked.connect(self.edit_schedule)
-        ### Schedule Edit/Add Buttons
+        # Schedule Edit/Add Buttons
         self.buttonScheduleCancel.clicked.connect(self.view_schedule)
 
         # Daily View
@@ -118,6 +115,8 @@ class Main(QMainWindow):
 
         # Weekly View
         self.buttonViewWeeklyBack.clicked.connect(self.view_month)
+        self.buttonNextWeek.clicked.connect(self.next_week)
+        self.buttonPreviousWeek.clicked.connect(self.previous_week)
 
         # Settings
         self.buttonSettingsHolidayImport.clicked.connect(self.get_holidays)
@@ -129,21 +128,20 @@ class Main(QMainWindow):
     def __set_defaults(self):
         # hide widgets
         self.selected_date = QDate.currentDate()
-        headers = [self.tableSearch, self.tableWidget, self.tableViewDaily, self.tableviewSunday, self.tableviewMonday, self.tableviewTuesday, self.tableviewWednesday, self.tableviewThursday, self.tableviewFriday, self.tableviewSaturday]
+        headers = [self.tableSearch, self.tableWidget, self.tableViewDaily, self.tableviewSunday, self.tableviewMonday,
+                   self.tableviewTuesday, self.tableviewWednesday, self.tableviewThursday, self.tableviewFriday, self.tableviewSaturday]
         for table in headers:
             table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         self.stackedWidgetViews.setCurrentIndex(0)
         self.buttonNavigationCalendar.setDisabled(True)
         self.buttonNavigationCalendarMonth.setDisabled(True)
-        self.popularize_weekly_list()
         self.tableViewDaily.setColumnHidden(0, True)
-        
+        self.popularize_weekly_list()
 
     # Navigation Buttons
 
-
     def validate_tags_list(self):
-        #check the tag list on whether they associate with an event
+        # check the tag list on whether they associate with an event
         all_event_tags = self.connectDB.get_all_event_tags()
         all_tags = self.connectDB.get_all_tags()
 
@@ -151,16 +149,13 @@ class Main(QMainWindow):
             event_tag_found = False
 
             for event_tag in all_event_tags:
-                print(event_tag[1],"and",tag[0])
+                print(event_tag[1], "and", tag[0])
                 if event_tag[1] == tag[0]:
                     event_tag_found = True
                     break
-            print(event_tag_found)
             if event_tag_found is False:
-                #delete the tag
+                # delete the tag
                 self.connectDB.del_tag(tag[0])
-               
-        
 
     def popularize_weekly_list(self):
 
@@ -186,6 +181,7 @@ class Main(QMainWindow):
         self.buttonNavigationCalendarMonth.setDisabled(True)
         self.stackedWidgetViews.setCurrentIndex(0)
         self.calendar_buttons.show()
+        self.calendar_widget.set_current_date(self.selected_date.toPyDate())
 
     def view_day(self, data=None):
         if data:
@@ -200,6 +196,7 @@ class Main(QMainWindow):
         self.stackedWidgetViews.setCurrentIndex(0)
         self.toggle_calendar_buttons()
         self.buttonNavigationCalendarMonth.setDisabled(True)
+        self.calendar_widget.set_current_date(self.selected_date.toPyDate())
 
     def view_week(self):
         self.stackedWidgetViews.setCurrentIndex(2)
@@ -208,13 +205,18 @@ class Main(QMainWindow):
 
         if self.selected_date.dayOfWeek() == 7:
 
-            thisWeeksSunday = time.strptime(str(self.selected_date.year()) + ' ' + str(self.selected_date.weekNumber()[0]) + ' 0', '%Y %W %w')
-            self.labelMonth.setText("Week " + str(self.selected_date.weekNumber()[0]+1)+" of "+ str(self.selected_date.year()))
+            thisWeeksSunday = time.strptime(str(self.selected_date.year(
+            )) + ' ' + str(self.selected_date.weekNumber()[0]) + ' 0', '%Y %W %w')
+            self.labelMonth.setText(
+                "Week " + str(self.selected_date.weekNumber()[0]+1)+" of " + str(self.selected_date.year()))
         else:
-            thisWeeksSunday = time.strptime(str(self.selected_date.year()) + ' ' + str(self.selected_date.weekNumber()[0]-1) + ' 0', '%Y %W %w')
-            self.labelMonth.setText("Week " + str(self.selected_date.weekNumber()[0])+" of "+ str(self.selected_date.year()))
+            thisWeeksSunday = time.strptime(str(self.selected_date.year(
+            )) + ' ' + str(self.selected_date.weekNumber()[0]-1) + ' 0', '%Y %W %w')
+            self.labelMonth.setText(
+                "Week " + str(self.selected_date.weekNumber()[0])+" of " + str(self.selected_date.year()))
 
-        thisWeeksSunday = datetime.datetime.fromtimestamp(mktime(thisWeeksSunday))
+        thisWeeksSunday = datetime.datetime.fromtimestamp(
+            mktime(thisWeeksSunday))
         thisWeeksSunday = thisWeeksSunday.strftime('%Y-%m-%d')
 
         date_1 = datetime.datetime.strptime(thisWeeksSunday, '%Y-%m-%d')
@@ -281,19 +283,25 @@ class Main(QMainWindow):
     def edit_event(self, data=None):
         self.edit_flag = 1
         current_tags = []
+
+        if self.stackedWidgetViews.currentIndex() == 0:
+            self.event_id = data
+
+        elif self.stackedWidgetViews.currentIndex() == 1:
+            selected_row = self.tableViewDaily.selectedItems()
+            if len(selected_row) > 1:
+                table = self.tableViewDaily
+                row_number = self.tableViewDaily.row(selected_row[0])
+                self.event_id = int(table.item(row_number, 0).text())
+            if len(selected_row) == 0:
+                ErrorManager(message="Please select an event.").exec_()
+                return
+
+        elif self.stackedWidgetViews.currentIndex() == 2:
+            selected_row = self.QTableWidget.currentRow()
+
         self.stackedWidgetViews.setCurrentIndex(3)
         self.set_event_defaults()
-
-        selected_row = self.tableViewDaily.selectedItems()
-        if len(selected_row) == 1:
-            table = self.tableViewDaily
-            row_number = self.tableViewDaily.row(selected_row[0])
-            self.event_id = int(table.item(row_number, 0).text())
-            print("event_id",self.event_id)
-        elif data is not None:
-            self.event_id = data
-        else:
-            return
 
         tags_ids = self.connectDB.get_event_tags(self.event_id)
         tags = self.connectDB.get_tags(tags_ids)
@@ -310,7 +318,7 @@ class Main(QMainWindow):
             item = self.tableModifyEventTags.item(0, column)
             if item is not None:
                 current_tags.append(item)
-            
+
         for item in self.database_tags:
             check_same_tag = False
             for tags in current_tags:
@@ -319,7 +327,6 @@ class Main(QMainWindow):
             if check_same_tag is False:
                 self.comboModifyEventTagsAdd.addItem(item[1])
 
-       
         cur = self.connectDB.conn.cursor()
         sql = """SELECT * FROM events WHERE event_id = ?"""
         values = (self.event_id, )
@@ -339,13 +346,6 @@ class Main(QMainWindow):
             self.labelModifyEventDate.setText(edateSelected.toString("MMM dd"))
             self.selected_date = edateSelected
 
-
-
-
-
-
-
-
     def delete_event(self):
         if len(self.tableViewDaily.selectedItems()) > 0:
             row = self.tableViewDaily.currentRow()
@@ -353,17 +353,28 @@ class Main(QMainWindow):
             try:
                 self.connectDB.delete_event(event_id)
                 self.tableViewDaily.removeRow(row)
+                ErrorManager("Event has been deleted").exec_()
             except Error as e:
                 print(e)
                 return
 
     def event_manager(self):
         if self.edit_flag == 0:
-            print("edit_flag 0")
-            self.connectDB.create_event(self.get_event_data())
+            try:
+                self.connectDB.create_event(self.get_event_data())
+                self.event_id =  self.connectDB.get_last_event()
+                self.edit_event_tags()
+                ErrorManager(message="Your event was created.").exec_()
+            except:
+                ErrorManager(
+                    message="There was an issue in creating your event.").exec_()
         elif self.edit_flag == 1:
-            print("edit_flag 1 ")
-            self.connectDB.update_event(self.get_event_data())
+            try:
+                self.connectDB.update_event(self.get_event_data())
+                ErrorManager(message="Changes saved successfully.").exec_()
+            except:
+                ErrorManager(
+                    message="There was an issue in editing your event.").exec_()
         self.set_event_defaults()
         self.populate_daily()
         self.calendar_widget.populate_days()
@@ -405,7 +416,7 @@ class Main(QMainWindow):
                     return
             self.tableModifyEventTags.removeColumn(selected_item.column())
             self.comboModifyEventTagsAdd.addItem(tag)
-    
+
     # SCHEDULE
     def create_schedule(self):
         self.edit_flag = 0
@@ -495,22 +506,37 @@ class Main(QMainWindow):
         self.populate_daily()
 
     def previous_day(self):
-        prev_day =  self.convert_qdate(self.selected_date) - timedelta(days=1)
+        prev_day = self.convert_qdate(self.selected_date) - timedelta(days=1)
         self.selected_date = QDate(prev_day.year, prev_day.month, prev_day.day)
         self.populate_daily()
+
+    def next_week(self):
+        next_week = self.convert_qdate(self.selected_date) + timedelta(days=7)
+        self.selected_date = QDate(next_week.year, next_week.month, next_week.day)
+        self.view_week()
+
+
+    def previous_week(self):
+        prev_week = self.convert_qdate(self.selected_date) - timedelta(days=7)
+        self.selected_date = QDate(prev_week.year, prev_week.month, prev_week.day)
+        self.view_week()
+
+
 
     def toggle_date_selector(self):
         self.date_pick.setHidden(not self.date_pick.isHidden())
 
     def toggle_navigation(self):
-        buttons = [self.buttonNavigationCalendar, self.buttonNavigationSearch, self.buttonNavigationScheduleView, self.buttonNavigationSettings]
+        buttons = [self.buttonNavigationCalendar, self.buttonNavigationSearch,
+                   self.buttonNavigationScheduleView, self.buttonNavigationSettings]
         for button in buttons:
             button.setDisabled(False)
         self.toggle_calendar_buttons()
         self.calendar_buttons.hide()
 
     def toggle_calendar_buttons(self):
-        buttons = [self.buttonNavigationCalendarMonth, self.buttonNavigationCalendarWeek, self.buttonNavigationCalendarDay]
+        buttons = [self.buttonNavigationCalendarMonth,
+                   self.buttonNavigationCalendarWeek, self.buttonNavigationCalendarDay]
         if not self.buttonNavigationCalendar.isEnabled():
             for button in buttons:
                 button.setDisabled(False)
@@ -549,6 +575,27 @@ class Main(QMainWindow):
         self.comboModifyEventTagsAdd.addItem("")
 
     def get_event_data(self):
+        if self.edit_flag == 0:
+            data = {
+                "title": self.dataModifyEventTitle.text(),
+                "description": self.dataModifyEventDescription.toPlainText(),
+                "start_date": self.dataModifyEventStartDate.text(),
+                "end_date": self.dataModifyEventEndDate.text(),
+                "completion_status": self.dataModifyEventStatus.value()
+            }
+        else:
+            self.edit_event_tags()
+            data = {
+                "event_id": self.event_id,
+                "title": self.dataModifyEventTitle.text(),
+                "description": self.dataModifyEventDescription.toPlainText(),
+                "start_date": self.dataModifyEventStartDate.text(),
+                "end_date": self.dataModifyEventEndDate.text(),
+                "completion_status": self.dataModifyEventStatus.value()
+            }
+        return data
+
+    def edit_event_tags(self):
         current_tags = []
         create_new_tags = []
         for column in range(self.tableModifyEventTags.columnCount()):
@@ -558,60 +605,30 @@ class Main(QMainWindow):
         for tag in current_tags:
             checkTag = False
             for tag_database in self.database_tags:
-                
                 if tag == tag_database[1]:
                     checkTag = True
                     break
             if checkTag is False:
-                #create a new tag
+                # create a new tag
                 create_new_tags.append(tag)
-
         new_tag_list = list(set(current_tags)-set(create_new_tags))
-        
-        
-        print("create new tags",create_new_tags)
+        # delete all event_tags for current event_id
+        if self.edit_flag == 1:
+            self.connectDB.del_event_tags(self.event_id)
 
-
-        #delete all event_tags for current event_id
-        self.connectDB.del_event_tags(self.event_id)
-
-
-        #create tags that doesn't exist in the database
+        # create tags that doesn't exist in the database
         for tag in create_new_tags:
             self.connectDB.create_tags(tag)
             for id in self.connectDB.get_tag_id(tag):
                 new_tag_id = id[0]
-                print("new tag id:",new_tag_id)
-            self.connectDB.create_event_tags(self.event_id,new_tag_id)
-        
-        #create event_tags that doesn't exist in the database
+            self.connectDB.create_event_tags(self.event_id, new_tag_id)
+
+        # create event_tags that doesn't exist in the database
         for tag in new_tag_list:
             for id in self.connectDB.get_tag_id(tag):
                 new_tag_id = id[0]
-            self.connectDB.create_event_tags(self.event_id,new_tag_id)
+            self.connectDB.create_event_tags(self.event_id, new_tag_id)
         self.validate_tags_list()
-       
-
-        if self.edit_flag == 0:
-            data = {
-                "title": self.dataModifyEventTitle.text(),
-                # "tags": self.dataModifyEventTags.text(),
-                "description": self.dataModifyEventDescription.toPlainText(),
-                "start_date": self.dataModifyEventStartDate.text(),
-                "end_date": self.dataModifyEventEndDate.text(),
-                "completion_status": self.dataModifyEventStatus.value()
-            }
-        else:
-            data = {
-                "event_id": self.event_id,
-                "title": self.dataModifyEventTitle.text(),
-                # "tags": self.dataModifyEventTags.text(),
-                "description": self.dataModifyEventDescription.toPlainText(),
-                "start_date": self.dataModifyEventStartDate.text(),
-                "end_date": self.dataModifyEventEndDate.text(),
-                "completion_status": self.dataModifyEventStatus.value()
-            }
-        return data
 
     def display_weekly_view(self):
 
@@ -622,15 +639,19 @@ class Main(QMainWindow):
         self.thu_list = []
         self.fri_list = []
         self.sat_list = []
-        self.tableviewSunday.setRowCount(0)
-        self.tableviewMonday.setRowCount(0)
-        self.tableviewTuesday.setRowCount(0)
-        self.tableviewWednesday.setRowCount(0)
-        self.tableviewThursday.setRowCount(0)
-        self.tableviewFriday.setRowCount(0)
-        self.tableviewSaturday.setRowCount(0)
-        for task in self.weekly_data:
 
+        table_list = [self.tableviewSunday, self.tableviewMonday, self.tableviewTuesday,
+                      self.tableviewWednesday, self.tableviewThursday, self.tableviewFriday, self.tableviewSaturday]
+        date_list = [self.sun_list, self.mon_list, self.tue_list,
+                     self.wed_list, self.thu_list, self.fri_list, self.sat_list]
+
+        # set table defaults
+        for table in table_list:
+            table.setColumnHidden(0, True)
+            table.setRowCount(0)
+            # table.doubleClicked.connect(self.edit_event)
+
+        for task in self.weekly_data:
             end_date_formatted = datetime.datetime.strptime(
                 task['end_date'], "%Y-%m-%d").strftime("%B %d")
 
@@ -651,20 +672,17 @@ class Main(QMainWindow):
             else:
                 continue
 
-        date_list = [self.sun_list, self.mon_list, self.tue_list,
-                     self.wed_list, self.thu_list, self.fri_list, self.sat_list]
-        table_list = [self.tableviewSunday, self.tableviewMonday, self.tableviewTuesday,
-                      self.tableviewWednesday, self.tableviewThursday, self.tableviewFriday, self.tableviewSaturday]
-
         for i in range(0, 7):
             row_count = 1
             tablerow = 0
             for alist in date_list[i]:
                 table_list[i].setRowCount(row_count)
                 table_list[i].setItem(
-                    tablerow, 0, QTableWidgetItem(alist['title']))
+                    tablerow, 0, QTableWidgetItem(str(alist['event_id'])))
                 table_list[i].setItem(
-                    tablerow, 1, QTableWidgetItem(self.format_completion_status(alist['completion_status'])))
+                    tablerow, 1, QTableWidgetItem(alist['title']))
+                table_list[i].setItem(
+                    tablerow, 2, QTableWidgetItem(self.format_completion_status(alist['completion_status'])))
                 tablerow += 1
                 row_count += 1
 
@@ -746,10 +764,10 @@ class Main(QMainWindow):
                 params_tag = (str(row[0]),)
                 tag_list = []
                 tag_str = ""
-                for tag in cur2.execute(query_tag,params_tag):
+                for tag in cur2.execute(query_tag, params_tag):
                     tag_list.append(tag[0])
                 tag_str = ', '.join(tag_list)
-                
+
                 self.tableViewDaily.setRowCount(row_count)
                 # event_id - hidden
                 self.tableViewDaily.setItem(
@@ -801,15 +819,44 @@ class Main(QMainWindow):
                 row_count += 1
 
     def get_holidays(self):
-        province_id =  self.comboBoxHolidayImport.currentIndex()
+        province_name = self.comboBoxHolidayImport.currentText()
+        province_id = self.comboBoxHolidayImport.currentIndex()
         if province_id != 0:
-            self.connectDB.get_holidays(province_id)
+            try:
+                self.connectDB.get_holidays(province_id)
+                ErrorManager(message=f"{province_name} holidays successfully imported.").exec_()
+            except:
+                ErrorManager(message=f"There was an error in connecting to the API.").exec_()
         self.calendar_widget.populate_days()
+        self.view_calendar()
 
-class Notification(QDialog):
-    def __init__(self):
-        super(Notification, self).__init__()
-        pass
+class ErrorManager(QDialog):
+    def __init__(self, message=None):
+        super(ErrorManager, self).__init__()
+
+        if message is None:
+            return
+        else:
+            self.message = message
+
+        self.setWindowTitle("Notification")
+        self.setWindowFlags(self.windowFlags() & ~
+                            Qt.WindowContextHelpButtonHint)
+
+        self.setFixedSize(QSize(300, 100))
+        frame = QFrame()
+        self.layout_main = QVBoxLayout(frame)
+        self.setLayout(self.layout_main)
+        self.layout_main.setStretchFactor(self, 100)
+        label = QLabel(self)
+        label.setText(self.message)
+        self.layout_main.addWidget(label)
+        button = QPushButton(self)
+        button.setText("Close")
+        self.layout_main.addWidget(button)
+        self.layout_main.setAlignment(Qt.AlignCenter)
+        button.clicked.connect(self.close)
+
 
 if __name__ == "__main__":
     """

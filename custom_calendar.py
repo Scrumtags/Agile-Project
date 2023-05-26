@@ -261,3 +261,7 @@ class CustomCalendarWidget(QWidget):
 
     def calculate_start(self):
         return self.first - timedelta(days=self.first.weekday() + 1)
+
+    def set_current_date(self, date):
+        self.current_date = date
+        self.set_defaults()

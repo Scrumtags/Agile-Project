@@ -11,7 +11,11 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>StudyBuddy</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>resources/StudyBuddy_Icon.png</normaloff>resources/StudyBuddy_Icon.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
@@ -234,47 +238,6 @@
       </layout>
      </widget>
     </item>
-    <item row="0" column="1">
-     <widget class="QWidget" name="header_bar" native="true">
-      <layout class="QHBoxLayout" name="horizontalLayout_39">
-       <property name="spacing">
-        <number>0</number>
-       </property>
-       <property name="leftMargin">
-        <number>0</number>
-       </property>
-       <property name="topMargin">
-        <number>3</number>
-       </property>
-       <property name="rightMargin">
-        <number>0</number>
-       </property>
-       <property name="bottomMargin">
-        <number>0</number>
-       </property>
-       <item>
-        <layout class="QHBoxLayout" name="_4">
-         <property name="spacing">
-          <number>0</number>
-         </property>
-         <item>
-          <spacer name="horizontalSpacer_42">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-        </layout>
-       </item>
-      </layout>
-     </widget>
-    </item>
     <item row="1" column="1">
      <widget class="QWidget" name="widget_14" native="true">
       <layout class="QVBoxLayout" name="verticalLayout_47">
@@ -340,7 +303,7 @@
                <item>
                 <widget class="QStackedWidget" name="stackedWidgetViews">
                  <property name="currentIndex">
-                  <number>3</number>
+                  <number>2</number>
                  </property>
                  <widget class="QWidget" name="page0">
                   <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -516,7 +479,22 @@
                         </item>
                         <item>
                          <widget class="QTableWidget" name="tableViewDaily">
+                          <property name="editTriggers">
+                           <set>QAbstractItemView::NoEditTriggers</set>
+                          </property>
+                          <property name="selectionMode">
+                           <enum>QAbstractItemView::SingleSelection</enum>
+                          </property>
+                          <property name="selectionBehavior">
+                           <enum>QAbstractItemView::SelectRows</enum>
+                          </property>
+                          <attribute name="horizontalHeaderStretchLastSection">
+                           <bool>false</bool>
+                          </attribute>
                           <attribute name="verticalHeaderVisible">
+                           <bool>false</bool>
+                          </attribute>
+                          <attribute name="verticalHeaderStretchLastSection">
                            <bool>false</bool>
                           </attribute>
                           <column>
@@ -618,7 +596,7 @@
                            </spacer>
                           </item>
                           <item>
-                           <widget class="QPushButton" name="pushButton">
+                           <widget class="QPushButton" name="buttonPreviousWeek">
                             <property name="text">
                              <string/>
                             </property>
@@ -636,7 +614,7 @@
                            </widget>
                           </item>
                           <item>
-                           <widget class="QPushButton" name="pushButton_2">
+                           <widget class="QPushButton" name="buttonNextWeek">
                             <property name="text">
                              <string/>
                             </property>
@@ -674,9 +652,23 @@
                             </item>
                             <item>
                              <widget class="QTableWidget" name="tableviewSunday">
+                              <property name="editTriggers">
+                               <set>QAbstractItemView::NoEditTriggers</set>
+                              </property>
+                              <property name="selectionMode">
+                               <enum>QAbstractItemView::SingleSelection</enum>
+                              </property>
+                              <property name="selectionBehavior">
+                               <enum>QAbstractItemView::SelectRows</enum>
+                              </property>
                               <attribute name="verticalHeaderVisible">
                                <bool>false</bool>
                               </attribute>
+                              <column>
+                               <property name="text">
+                                <string>Event ID</string>
+                               </property>
+                              </column>
                               <column>
                                <property name="text">
                                 <string>Title</string>
@@ -702,9 +694,23 @@
                             </item>
                             <item>
                              <widget class="QTableWidget" name="tableviewMonday">
+                              <property name="editTriggers">
+                               <set>QAbstractItemView::NoEditTriggers</set>
+                              </property>
+                              <property name="selectionMode">
+                               <enum>QAbstractItemView::SingleSelection</enum>
+                              </property>
+                              <property name="selectionBehavior">
+                               <enum>QAbstractItemView::SelectRows</enum>
+                              </property>
                               <attribute name="verticalHeaderVisible">
                                <bool>false</bool>
                               </attribute>
+                              <column>
+                               <property name="text">
+                                <string>Event ID</string>
+                               </property>
+                              </column>
                               <column>
                                <property name="text">
                                 <string>Title</string>
@@ -730,9 +736,23 @@
                             </item>
                             <item>
                              <widget class="QTableWidget" name="tableviewTuesday">
+                              <property name="editTriggers">
+                               <set>QAbstractItemView::NoEditTriggers</set>
+                              </property>
+                              <property name="selectionMode">
+                               <enum>QAbstractItemView::SingleSelection</enum>
+                              </property>
+                              <property name="selectionBehavior">
+                               <enum>QAbstractItemView::SelectRows</enum>
+                              </property>
                               <attribute name="verticalHeaderVisible">
                                <bool>false</bool>
                               </attribute>
+                              <column>
+                               <property name="text">
+                                <string>Event ID</string>
+                               </property>
+                              </column>
                               <column>
                                <property name="text">
                                 <string>Title</string>
@@ -758,9 +778,23 @@
                             </item>
                             <item>
                              <widget class="QTableWidget" name="tableviewWednesday">
+                              <property name="editTriggers">
+                               <set>QAbstractItemView::NoEditTriggers</set>
+                              </property>
+                              <property name="selectionMode">
+                               <enum>QAbstractItemView::SingleSelection</enum>
+                              </property>
+                              <property name="selectionBehavior">
+                               <enum>QAbstractItemView::SelectRows</enum>
+                              </property>
                               <attribute name="verticalHeaderVisible">
                                <bool>false</bool>
                               </attribute>
+                              <column>
+                               <property name="text">
+                                <string>Event ID</string>
+                               </property>
+                              </column>
                               <column>
                                <property name="text">
                                 <string>Title</string>
@@ -786,9 +820,23 @@
                             </item>
                             <item>
                              <widget class="QTableWidget" name="tableviewThursday">
+                              <property name="editTriggers">
+                               <set>QAbstractItemView::NoEditTriggers</set>
+                              </property>
+                              <property name="selectionMode">
+                               <enum>QAbstractItemView::SingleSelection</enum>
+                              </property>
+                              <property name="selectionBehavior">
+                               <enum>QAbstractItemView::SelectRows</enum>
+                              </property>
                               <attribute name="verticalHeaderVisible">
                                <bool>false</bool>
                               </attribute>
+                              <column>
+                               <property name="text">
+                                <string>Event ID</string>
+                               </property>
+                              </column>
                               <column>
                                <property name="text">
                                 <string>Title</string>
@@ -814,9 +862,23 @@
                             </item>
                             <item>
                              <widget class="QTableWidget" name="tableviewFriday">
+                              <property name="editTriggers">
+                               <set>QAbstractItemView::NoEditTriggers</set>
+                              </property>
+                              <property name="selectionMode">
+                               <enum>QAbstractItemView::SingleSelection</enum>
+                              </property>
+                              <property name="selectionBehavior">
+                               <enum>QAbstractItemView::SelectRows</enum>
+                              </property>
                               <attribute name="verticalHeaderVisible">
                                <bool>false</bool>
                               </attribute>
+                              <column>
+                               <property name="text">
+                                <string>Event ID</string>
+                               </property>
+                              </column>
                               <column>
                                <property name="text">
                                 <string>Title</string>
@@ -842,9 +904,23 @@
                             </item>
                             <item>
                              <widget class="QTableWidget" name="tableviewSaturday">
+                              <property name="editTriggers">
+                               <set>QAbstractItemView::NoEditTriggers</set>
+                              </property>
+                              <property name="selectionMode">
+                               <enum>QAbstractItemView::SingleSelection</enum>
+                              </property>
+                              <property name="selectionBehavior">
+                               <enum>QAbstractItemView::SelectRows</enum>
+                              </property>
                               <attribute name="verticalHeaderVisible">
                                <bool>false</bool>
                               </attribute>
+                              <column>
+                               <property name="text">
+                                <string>Event ID</string>
+                               </property>
+                              </column>
                               <column>
                                <property name="text">
                                 <string>Title</string>
@@ -1038,11 +1114,32 @@
                               <height>20</height>
                              </size>
                             </property>
+                            <property name="verticalScrollBarPolicy">
+                             <enum>Qt::ScrollBarAlwaysOff</enum>
+                            </property>
+                            <property name="editTriggers">
+                             <set>QAbstractItemView::NoEditTriggers</set>
+                            </property>
+                            <property name="selectionMode">
+                             <enum>QAbstractItemView::SingleSelection</enum>
+                            </property>
+                            <property name="selectionBehavior">
+                             <enum>QAbstractItemView::SelectRows</enum>
+                            </property>
                             <attribute name="horizontalHeaderVisible">
                              <bool>false</bool>
                             </attribute>
+                            <attribute name="horizontalHeaderMinimumSectionSize">
+                             <number>20</number>
+                            </attribute>
+                            <attribute name="horizontalHeaderDefaultSectionSize">
+                             <number>20</number>
+                            </attribute>
                             <attribute name="verticalHeaderVisible">
                              <bool>false</bool>
+                            </attribute>
+                            <attribute name="verticalHeaderStretchLastSection">
+                             <bool>true</bool>
                             </attribute>
                            </widget>
                           </item>
@@ -1297,6 +1394,15 @@
                         </item>
                         <item>
                          <widget class="QTableWidget" name="tableSearch">
+                          <property name="editTriggers">
+                           <set>QAbstractItemView::NoEditTriggers</set>
+                          </property>
+                          <property name="selectionMode">
+                           <enum>QAbstractItemView::SingleSelection</enum>
+                          </property>
+                          <property name="selectionBehavior">
+                           <enum>QAbstractItemView::SelectRows</enum>
+                          </property>
                           <column>
                            <property name="text">
                             <string>Title</string>
@@ -1439,6 +1545,15 @@
                      </item>
                      <item>
                       <widget class="QTableWidget" name="tableWidget">
+                       <property name="editTriggers">
+                        <set>QAbstractItemView::NoEditTriggers</set>
+                       </property>
+                       <property name="selectionMode">
+                        <enum>QAbstractItemView::SingleSelection</enum>
+                       </property>
+                       <property name="selectionBehavior">
+                        <enum>QAbstractItemView::SelectRows</enum>
+                       </property>
                        <column>
                         <property name="text">
                          <string>ID</string>
@@ -1587,11 +1702,32 @@
                             <height>20</height>
                            </size>
                           </property>
+                          <property name="verticalScrollBarPolicy">
+                           <enum>Qt::ScrollBarAlwaysOff</enum>
+                          </property>
+                          <property name="editTriggers">
+                           <set>QAbstractItemView::NoEditTriggers</set>
+                          </property>
+                          <property name="selectionMode">
+                           <enum>QAbstractItemView::SingleSelection</enum>
+                          </property>
+                          <property name="wordWrap">
+                           <bool>false</bool>
+                          </property>
                           <attribute name="horizontalHeaderHighlightSections">
                            <bool>true</bool>
                           </attribute>
                           <attribute name="verticalHeaderVisible">
                            <bool>false</bool>
+                          </attribute>
+                          <attribute name="verticalHeaderMinimumSectionSize">
+                           <number>20</number>
+                          </attribute>
+                          <attribute name="verticalHeaderDefaultSectionSize">
+                           <number>20</number>
+                          </attribute>
+                          <attribute name="verticalHeaderStretchLastSection">
+                           <bool>true</bool>
                           </attribute>
                          </widget>
                         </item>
@@ -2013,6 +2149,47 @@
             </item>
            </layout>
           </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QWidget" name="header_bar" native="true">
+      <layout class="QHBoxLayout" name="horizontalLayout_39">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>3</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <layout class="QHBoxLayout" name="_4">
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <item>
+          <spacer name="horizontalSpacer_42">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
          </item>
         </layout>
        </item>

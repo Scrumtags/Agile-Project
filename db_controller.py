@@ -1,4 +1,4 @@
-import sqlite3, datetime, requests
+import sqlite3, datetime, requests, os
 from sqlite3 import Error
 from datetime import timedelta
 
@@ -14,7 +14,6 @@ class Database_Controller():
         provinces = ["AB", "BC", "MB", "NB", "NL", "NS",
                      "NT", "NU", "ON", "PE", "QC", "SK", "YT"]
 
-        print(index)
         province = provinces[index-1]
 
         print(f'got {province}')
@@ -54,6 +53,10 @@ class Database_Controller():
 
     def create_connection(self):
         conn = None
+
+        if not os.path.exists("./sqliteDB"):
+            os.mkdir("./sqliteDB")
+
         try:
             conn = sqlite3.connect("./sqliteDB/database.db")
             return conn
@@ -148,29 +151,22 @@ class Database_Controller():
         event_id = self.data['event_id']
         title = self.data['title']
         description = self.data['description']
-
-        
         start_date = self.data['start_date']
         end_date = self.data['end_date']
-        
+
         completion_status = self.data['completion_status']
 
         sql = """UPDATE events SET title = ?, description = ?, start_date= ?, end_date = ?, completion_status = ? WHERE event_id = ? """
-        
         params = (title, description, start_date,
                   end_date, completion_status, event_id)
-        
         c = self.conn.cursor()
         c.execute(sql, params)
-        
         self.conn.commit()
         testsql = """select * from events where event_id = ?"""
         testpara = (event_id, )
         c = self.conn.cursor()
         testdata = c.execute(testsql,testpara)
 
-        for row in testdata:
-            print(row)
     def get_schedule_tags(self, schedule_id):
         pass
 
@@ -238,8 +234,6 @@ class Database_Controller():
         c= self.conn.cursor()
         c.execute(query,param)
 
-    
-        
     def search_data(self, check, searchText):
 
         if check == "*":
@@ -309,3 +303,9 @@ class Database_Controller():
         c = self.conn.cursor()
         data = c.execute(query)
         return data
+
+    def get_last_event(self):
+        query = f'Select * from events ORDER by event_id DESC'
+        c = self.conn.cursor()
+        data = c.execute(query).fetchone()
+        return data[0]
