@@ -23,10 +23,17 @@ class DayWidget(QWidget):
     -------------------------
 
     """
+
+    # signals to emit to parent widget
     button_clicked = pyqtSignal(object)
     background_clicked = pyqtSignal(object)
 
     def __init__(self, data, parent=None):
+        """
+
+        Args:
+            data int: event_id used to populate 5 listings onto day widget
+        """
         super().__init__()
 
         # Set Class Properties
@@ -38,7 +45,7 @@ class DayWidget(QWidget):
         self.current_date = self.data['current_date']
         self.event_id = int
         self.count = 0
-        
+
         # Set Widget Layout
         frame = QFrame()
         self.layout_main = QVBoxLayout(frame)
@@ -52,10 +59,9 @@ class DayWidget(QWidget):
         self.layout_header.setAlignment(Qt.AlignTop)
         self.layout_main.setAlignment(Qt.AlignTop)
         self.layout_main.setSpacing(0)
-        self.layout_listing.setSpacing(0)
+        self.layout_listing.setSpacing(1)
         self.layout_main.setContentsMargins(4, 4, 4, 4)
-        self.layout_listing.setAlignment(Qt.AlignTop) 
-        # layout_header.setContentsMargins(10, 0, 10, 0)
+        self.layout_listing.setAlignment(Qt.AlignTop)
         self.setAutoFillBackground(True)
 
         today = datetime.datetime.today().strftime('%Y-%m-%d')
@@ -103,17 +109,38 @@ class DayWidget(QWidget):
         for item in self.data['data']:
             if i < 5:
                 self.event_id = item[0]
-                listing = QPushButton(item[1])
-                listing.setFont(QFont('Arial', 8))
+                # set listing structure and properties
+                listing = QPushButton()
+                listing_layout = QVBoxLayout(listing)
+                listing_layout.setContentsMargins(0, 0, 0, 0)
+                listing.setLayout(listing_layout)
+                listing_title = QLabel(item[1])
+                listing_layout.addWidget(listing_title)
+                listing_title.setStyleSheet("font-size: 12px;")
+                listing_title.adjustSize()
+                listing_title.setAlignment(Qt.AlignCenter)
+                # if completion status is incomplete set different styling
                 if item[5] == 0:
-                    listing.setStyleSheet(" background-color: #fcbfbb; ")
+                    listing.setStyleSheet("""
+                        QPushButton {
+                            background-color: #fcbfbb;
+                            border: 1px solid #7aa7c7;
+                            color: #39739d;
+                            font-size: 15px;
+                            font-weight: 400;
+                            outline: none;
+                        }
+                    """)
                     self.count += 1
                 self.layout_listing.addWidget(listing)
+                # assign callback to listings with lambda to not explicitly define each event 
                 listing.clicked.connect(lambda checked, event_id=self.event_id: self.button_clicked.emit(event_id))
                 i += 1
 
     def background_clicked_event(self):
         """
+        inherited function
+
         When background of widget is clicked connect to mainwidget, view_daily function
         - sends to day view and updates selected_date
         """
@@ -122,31 +149,38 @@ class DayWidget(QWidget):
 
     def mousePressEvent(self, event):
         """
+        inherited function
+
         When background of widget is clicked connect to mainwidget, view_daily function
         - sends to day view and updates selected_date
-        Args:
-            event (_type_): _description_
         """
         if event.button() == Qt.LeftButton:
             self.background_clicked_event()
 
 
 class CustomCalendarWidget(QWidget):
+    """
+        custom calendar widget created for studybuddy
+    """
+
+    # signals to emit to parent widget
     button_clicked = pyqtSignal(object)
     background_clicked = pyqtSignal(object)
+    previous_month_clicked = pyqtSignal(object)
+    next_month_clicked = pyqtSignal(object)
 
     def __init__(self, parent=None):
         super().__init__()
 
         self.current_date = datetime.datetime.now()
+        # database connection to populate days on calendar
         self.db_connection = Database_Controller()
 
         # define widget structure
         frame = QFrame()
         self.main_layout = QVBoxLayout(frame)
         self.setLayout(self.main_layout)
-        self.main_layout.setContentsMargins(2, 2, 2, 2)
-        self.setLayout(self.main_layout)
+        self.main_layout.setContentsMargins(0, 0, 0, 0)
         self.layoutUpper = QHBoxLayout()
         self.main_layout.setStretchFactor(self.layoutUpper, 20)
         self.layoutMiddle = QHBoxLayout()
@@ -193,12 +227,12 @@ class CustomCalendarWidget(QWidget):
 
     # button to add 1 month
     def next_month(self):
-        self.current_date = self.current_date + timedelta(days=30)
+        self.next_month_clicked.emit(self.current_date)
         self.set_defaults()
 
     # function to go back 1 month
     def previous_month(self):
-        self.current_date = self.current_date - timedelta(days=30)
+        self.previous_month_clicked.emit(self.current_date)
         self.set_defaults()
 
     # creates all the daywidgets for calendar
@@ -232,16 +266,29 @@ class CustomCalendarWidget(QWidget):
             item = self.days_layout.itemAt(i)
             item.widget().close()
 
-    # functions just for caclulations to store as properties
-
+    # functions just for calculations to store as properties
     def get_month(self):
         self.labelMonth.setText(self.current_date.strftime("%B %Y"))
 
+    # calculate first day of week based on stored date
     def calculate_first(self):
         return self.current_date.replace(day=1)
 
+    # function to get what day of the week stored date is
     def calculate_day(self):
         return self.current_date.weekday()
-
+    
+    # calculate first box date for the calendar
     def calculate_start(self):
         return self.first - timedelta(days=self.first.weekday() + 1)
+
+    # date passed by parent widget to update calendar widget
+    def set_current_date(self, date):
+        """
+        Summary:
+            updates calendar date to sync calendar widget with parent date
+        Args:
+            date: datetime.datetime obj
+        """
+        self.current_date = date
+        self.set_defaults()
