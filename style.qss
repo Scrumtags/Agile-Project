@@ -1,55 +1,15 @@
-/*= Style for mainwindow START
-  ==================================================== */
+/* Main Widget styling */
 	#MainWindow {
         background-color: rgb(241, 241, 241);
         font-family: -apple-system,system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
         border-radius: 3px;
 }
-/*= END
-  ==================================================== */
 
-/*= Style for header widget START
-  ==================================================== */
-	#widget {
-		background-color: #f9fafd;
-	}
-/*= END
-  ==================================================== */
-
-/*= Style for menu with icon only START
-  ==================================================== */
-  	/* style for widget */
-	#icon_only_widget {
-		background-color: #313a46;
-		width:50px;
-	}
-
-    /* style for QPushButton and QLabel */
-	#icon_only_widget QPushButton, QLabel {
-		height:50px;
-		border:none;
-		/* border-bottom: 1px solid #b0b0b0; */
-	}
-
-	#icon_only_widget QPushButton:hover {
-		background-color: rgba( 86, 101, 115, 0.5);
-	}
-
-	/* style for logo image */
-	#logo_label_1 {
-		padding: 5px
-	}
-/*= END
-  ==================================================== */
-
-/*= Style for menu with icon and text START
-  ==================================================== */
-  /* style for widget */
+/* Navigation menu styling */
 	#text_nav {
 		background-color: #2362b6;
 	}
 
-	/* style for QPushButton */
 	#text_nav QPushButton {
 		border:none;
 		border-radius: 3px;
@@ -85,49 +45,7 @@
 		background-color: #276bc4;
 	}
 
-	/* style for logo image */
-	#logo_label_2 {
-		padding: 5px;
-		color: #fff;
-	}
-
-	/* style for APP title */
-	#logo_label_3 {
-		padding-right: 10px;
-		color: #fff;
-	}
-/*= END
-  ==================================================== */
-
-/*= Style for search button START
-  ==================================================== */
-	#search_btn {
-		border: none;
-	}
-/*= END
-  ==================================================== */
-
-/*= Style for search input START
-  ==================================================== */
-	#search_input {
-		border: none;
-		padding: 5px 10px;
-	}
-
-	#search_input:focus {
-		background-color: #70B9FE;
-	}
-/*= END
-  ==================================================== */
-
-/*= Style for user information button START
-  ==================================================== */
-	#user_btn {
-		border: none;
-	}
-/*= END
-  ==================================================== */
-
+/* General Styling */
     #header_bar {
         background-color: #2362b6;
     }

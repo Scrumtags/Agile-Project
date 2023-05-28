@@ -1,6 +1,10 @@
-import sqlite3, datetime, requests
+import sqlite3
+import datetime
+import requests
+import os
 from sqlite3 import Error
 from datetime import timedelta
+
 
 class Database_Controller():
     def __init__(self):
@@ -14,11 +18,7 @@ class Database_Controller():
         provinces = ["AB", "BC", "MB", "NB", "NL", "NS",
                      "NT", "NU", "ON", "PE", "QC", "SK", "YT"]
 
-        print(index)
         province = provinces[index-1]
-
-        print(f'got {province}')
-
         url = province_url + province
 
         try:
@@ -41,19 +41,24 @@ class Database_Controller():
                 status = 0
             else:
                 status = 1
-            list_of_holidays.append({'title':title, 'start_date':start_date,'end_date':end_date,'status':status})
+            list_of_holidays.append(
+                {'title': title, 'start_date': start_date, 'end_date': end_date, 'status': status})
 
         if list_of_holidays:
             for day in list_of_holidays:
                 sql = """INSERT INTO events(title,start_date,end_date,completion_status) VALUES(?,?,?,?);"""
-                params = (day['title'], day['start_date'], day['end_date'], day['status'])
-                print("event has been created")
+                params = (day['title'], day['start_date'],
+                          day['end_date'], day['status'])
                 c = self.conn.cursor()
                 c.execute(sql, params)
                 self.conn.commit()
 
     def create_connection(self):
         conn = None
+
+        if not os.path.exists("./sqliteDB"):
+            os.mkdir("./sqliteDB")
+
         try:
             conn = sqlite3.connect("./sqliteDB/database.db")
             return conn
@@ -126,7 +131,6 @@ class Database_Controller():
 
         sql = """INSERT INTO events(description,start_date,end_date,completion_status, title) VALUES(?,?,?,?,?);"""
         params = (description, start_date, end_date, status, title)
-        print("event has been created")
         c = self.conn.cursor()
         c.execute(sql, params)
         self.conn.commit()
@@ -137,7 +141,6 @@ class Database_Controller():
         values = (data, )
         c.execute(deleteQuery, values)
         self.conn.commit()
-        print(data, "has been deleted from the database.")
 
     def update_event(self, data):
         if data is None:
@@ -148,29 +151,22 @@ class Database_Controller():
         event_id = self.data['event_id']
         title = self.data['title']
         description = self.data['description']
-
-        
         start_date = self.data['start_date']
         end_date = self.data['end_date']
-        
+
         completion_status = self.data['completion_status']
 
         sql = """UPDATE events SET title = ?, description = ?, start_date= ?, end_date = ?, completion_status = ? WHERE event_id = ? """
-        
         params = (title, description, start_date,
                   end_date, completion_status, event_id)
-        
         c = self.conn.cursor()
         c.execute(sql, params)
-        
         self.conn.commit()
         testsql = """select * from events where event_id = ?"""
         testpara = (event_id, )
         c = self.conn.cursor()
-        testdata = c.execute(testsql,testpara)
+        testdata = c.execute(testsql, testpara)
 
-        for row in testdata:
-            print(row)
     def get_schedule_tags(self, schedule_id):
         pass
 
@@ -186,10 +182,19 @@ class Database_Controller():
         query = f'SELECT * FROM tags WHERE tag_id = ?'
         c = self.conn
         for tag_id in data:
-            params = (tag_id, )
+
+            params = (tag_id[1], )
             data = c.execute(query, params)
             tag_names.append(data.fetchone()[1])
         return tag_names
+
+    def get_tag_id(self, tag_name):
+        query = """select tag_id from tags where tag_name = ?"""
+        param = (tag_name,)
+        c = self.conn.cursor()
+
+        data = c.execute(query, param)
+        return data
 
     def get_all_tags(self):
         query = """ SELECT * FROM tags"""
@@ -197,6 +202,40 @@ class Database_Controller():
         cursor = c.execute(query)
         data = cursor.fetchall()
         return data
+
+    def get_all_event_tags(self):
+        query = """ SELECT * FROM event_tags"""
+        c = self.conn.cursor()
+        cursor = c.execute(query)
+        data = cursor.fetchall()
+        return data
+
+    def del_event_tags(self, event_id):
+        query = """DELETE FROM event_tags where event_id = ?"""
+        param = (event_id,)
+
+        c = self.conn.cursor()
+        c.execute(query, param)
+
+    def del_tag(self, tag_id):
+        query = """DELETE FROM tags where tag_id = ?"""
+        param = (int(tag_id),)
+
+        c = self.conn.cursor()
+        c.execute(query, param)
+        print("tag has been deleted from database")
+
+    def create_tags(self, tag_name):
+        query = """insert into tags(tag_name) values(?)"""
+        param = (tag_name,)
+        c = self.conn.cursor()
+        c.execute(query, param)
+
+    def create_event_tags(self, event_id, tag_id):
+        query = """insert into event_tags values(?,?)"""
+        param = (event_id, tag_id)
+        c = self.conn.cursor()
+        c.execute(query, param)
 
     def search_data(self, check, searchText):
 
@@ -227,7 +266,6 @@ class Database_Controller():
         else:
             self.data = data
         title = self.data['title']
-        # tags = self.data['tags']
         description = self.data['description']
         start_date = self.data['start_date']
         end_date = self.data['end_date']
@@ -267,3 +305,9 @@ class Database_Controller():
         c = self.conn.cursor()
         data = c.execute(query)
         return data
+
+    def get_last_event(self):
+        query = f'Select * from events ORDER by event_id DESC'
+        c = self.conn.cursor()
+        data = c.execute(query).fetchone()
+        return data[0]

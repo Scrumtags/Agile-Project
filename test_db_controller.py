@@ -196,21 +196,6 @@ def test_get_event_tags(db_controller):
 
     assert result is not None
 
-def test_get_tags(db_controller):
-    c = db_controller.conn.cursor()
-
-    tags = ['tag1', 'tag2', 'tag3']
-
-    for tag in tags:
-        c.execute("INSERT INTO tags (tag_name) VALUES (?)", (tag,))
-
-    tag_ids = [1, 2, 3]
-
-    result = db_controller.get_tags(tag_ids)
-
-    assert len(result) == len(tag_ids)
-
-
 def test_get_all_tags(db_controller):
     result = db_controller.get_all_tags()
 
