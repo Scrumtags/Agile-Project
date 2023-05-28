@@ -52,11 +52,14 @@
 
     .QPushButton {
         background-color: #e1ecf4;
+		border-radius: 3px;
         border: 1px solid #7aa7c7;
         color: #39739d;
         font-size: 15px;
         font-weight: 400;
         outline: none;
+		padding: 4px .4em;
+		
     }
 
     .QLabel{
